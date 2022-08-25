@@ -180,9 +180,12 @@
                         />
                         <select id="dosageUnit" formControlName="dosageUnit">
                           <option value="" disabled selected>Unit</option>
-                          <option value="Mg">mg</option>
-                          <option value="ml">ml</option>
-                          <option value="drops">drops</option>
+                          <option value="kilogram">kilogram</option>
+                          <option value="gram">gram</option>
+                          <option value="milligram">milligram</option>
+                          <option value="microgram">microgram</option>
+                          <option value="nanogram">nanogram</option>
+                          <option value="picogram">picogram</option>
                         </select>
                       </div>
                     </div>
@@ -385,8 +388,8 @@
               <input type="text" formControlName="height" class="input input--sm" placeholder="Height" />
               <select formControlName="heightUnits">
                 <option value="" disabled selected>--Unit--</option>
-                <option value="cm">Cm</option>
-                <option value="inch">Inch</option>
+                <option value="Inches">Inches</option>
+                <option value="Centimeters">Centimeters</option>
               </select>
             </div>
           </div>
@@ -396,8 +399,8 @@
               <input type="text" formControlName="weight" class="input input--sm" placeholder="Weight" />
               <select formControlName="weightUnits">
                 <option value="" disabled selected>--Unit--</option>
-                <option value="cm">Kg</option>
-                <option value="inch">Pound</option>
+                <option value="Pounds">Pounds</option>
+                <option value="Kilograms">Kilograms</option>
               </select>
             </div>
           </div>
