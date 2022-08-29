@@ -119,7 +119,7 @@
 .main {
   display: flex;
   background: linear-gradient(#008ba1b5, #008ba1b5),
-    url("assets/banner-2@2x.png");
+    url("/assets/banner-2@2x.png");
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
@@ -131,7 +131,6 @@
     position: absolute;
     top: 50px;
     left: 55px;
-
     // z-index: 1;
   }
   app-steps {
@@ -270,6 +269,7 @@
         }
       }
     }
+    
     .textarea {
       @include default_input-style;
       width: 100%;
@@ -323,6 +323,24 @@
     line-height: 24px;
     margin-bottom: 21px;
   }
+
+  .form-control-full{
+    input[type="text"],
+    select {
+      @include default_input-style;
+      width: 100%;
+      height: 40px;
+    }
+    margin-top:25px;
+    label {
+      margin-bottom: 3px;
+      display: inline-block;
+      font-size: 16px;
+      letter-spacing: 0.15px;
+      line-height: 24px;
+    }
+  }
+
   .input-group {
     width: 100%;
     display: flex;
@@ -330,13 +348,26 @@
     &:not(:last-child) {
       margin-top: 25px;
     }
-
+    
     .form-control {
+      .input-group-wrapper-full{
+        width: 417px;
+        display: flex;
+        & > * {
+          width: 50%;
+        }
+      }
       .input-group-wrapper {
         width: 265px;
         display: flex;
         & > * {
           width: 50%;
+        }
+        input[type="text"],
+        select {
+          @include default_input-style;
+          width: 50%;
+          height: 40px;
         }
       }
       label {

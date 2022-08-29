@@ -1,0 +1,501 @@
+<div class="grid-flex">
+  <div class="header">
+    <a href="index.html" class="logo">
+      <img src="assets/ucb-logo.png" alt="company logo" class="logo__img" />
+    </a>
+  </div>
+  <div class="main">
+    <!-- <div class="component-wrapper"> -->
+    <form class="form" [formGroup]="aeForm"  (ngSubmit)="onSubmit()">
+      <div class="card" *ngIf="step === 1" name="patientDetails">
+        <h3 class="title">Patient Details</h3>
+        <div class="field-set">
+          <div class="input-group">
+            <label for="name">Can you mention your name?</label>
+            <input
+              type="text"
+              form_ControlName="patient_name"
+              id="patient_name"
+              placeholder="Patient name"
+            />
+          </div>
+          <div class="input-group">
+            <label for="dob">What is your Date of Birth ?</label>
+            <input
+              type="date"
+              form_ControlName="patient_dob"
+              id="patient_dob"
+              placeholder="Date"
+            />
+          </div>
+        </div>
+        <div class="field-set">
+          <div class="radio__group radio__group--sm">
+            <p class="radio__group-title">What is your sex?</p>
+            <div class="radio__group-input">
+              <input type="radio" form_ControlName="patient_gender" value="Male" />
+              <label>Male</label>
+            </div>
+            <div class="radio__group-input">
+              <input type="radio" form_ControlName="patient_gender" value="Female" />
+              <label>Female</label>
+            </div>
+            <div class="radio__group-input">
+              <input type="radio" form_ControlName="patient_gender" value="Other" />
+              <label>Other</label>
+            </div>
+          </div>
+        </div>
+        <div class="field-set">
+          <div class="radio__group radio__group--sm">
+            <p class="radio__group-title">Do you wish to be contacted for further information?</p>
+            <div class="radio__group-input">
+              <input type="radio" form_ControlName="contactable" value="Yes" />
+              <label>Yes</label>
+            </div>
+            <div class="radio__group-input">
+              <input type="radio" form_ControlName="contactable" value="No" />
+              <label>No</label>
+            </div>
+          </div>
+        </div>
+        <p class="text sub-title">
+          Patient Contact Details
+        </p>
+        <div class="field-set">
+          <div class="input-group">
+            <label for="name">Address</label>
+            <input
+              type="text"
+              form_ControlName="patient_address"
+              id="patient_address"
+              placeholder="Address"
+            />
+          </div>
+          <div class="input-group">
+            <label for="name">City</label>
+            <input
+              type="text"
+              form_ControlName="patient_city"
+              id="patient_city"
+              placeholder="City"
+            />
+          </div>
+        </div>
+        <div class="field-set">
+          <div class="input-group">
+            <label for="name">State</label>
+            <input
+              type="text"
+              form_ControlName="patient_state"
+              id="patient_state"
+              placeholder="State"
+            />
+          </div>
+          <div class="input-group">
+            <label for="name">Postel Code</label>
+            <input
+              type="text"
+              form_ControlName="patient_pin"
+              id="patient_pin"
+              placeholder="Postel Code"
+            />
+          </div>
+        </div>
+        <div class="field-set">
+          <div class="input-group">
+            <label for="name">Contact Number</label>
+            <input
+              type="text"
+              form_ControlName="patient_contactno"
+              id="patient_contactno"
+              placeholder="Contact Number"
+            />
+          </div>
+          <div class="input-group">
+            <label for="name">Email</label>
+            <input
+              type="text"
+              form_ControlName="patient_email"
+              id="patient_email"
+              placeholder="E-mail"
+            />
+          </div>
+        </div>
+
+      </div>
+
+      <div class="card" *ngIf="step === 2">
+        <h3 class="title">Medications</h3>
+        <div class="tab__group">
+          <p-tabView>
+            <ng-container formArrayName="medicationArray">
+              <ng-container
+                *ngFor="
+                  let med of aeForm.controls.medicationArray['controls'];
+                  let i = index
+                "
+                [formGroupName]="i"
+              >
+                <p-tabPanel header="Medication {{ i + 1 }}">
+                  
+                    <div class="form-control-full">
+                      <label for="drugName">What is the medication you are taking?</label>
+                      <input
+                        type="text"
+                        id="drugName"
+                        form_ControlName="drugName"
+                        placeholder="Name of the Medication"
+                      />
+                    </div>
+                    
+                    <div class="form-control-full">
+                      <label for="reasonForDrug">Why is the medication being taken?</label>
+                      <input
+                        type="text"
+                        id="reasonForDrug"
+                        form_ControlName="reasonForDrug"
+                        placeholder="Reason"
+                      />
+                    </div>
+
+                    <div class="form-control-full">
+                      <label for="medicationChannel">How the medication being taken ?</label>
+                      <input
+                        type="text"
+                        id="medicationChannel"
+                        form_ControlName="medicationChannel"
+                        placeholder="How the medication being taken?"
+                      />
+                    </div>
+                    <div class="input-group">
+                      <div class="form-control">
+                        <label for="dosage">Dosage</label>
+                        <div class="input-group-wrapper-full">
+                          <input
+                            type="text"
+                            class="input--sm"
+                            id="dosage"
+                            placeholder="Dose"
+                            form_ControlName="dosage"
+                          />
+                          <select id="dosageUnit" form_ControlName="dosageUnit">
+                            <option value="" disabled selected>Unit</option>
+                            <option value="kilogram">kilogram</option>
+                            <option value="gram">gram</option>
+                            <option value="milligram">milligram</option>
+                            <option value="microgram">microgram</option>
+                            <option value="nanogram">nanogram</option>
+                            <option value="picogram">picogram</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+
+                  <div class="form-control">
+                    <label for="frequency">Frequency</label>
+                    <select id="frequency" form_ControlName="frequency">
+                      <option value="" disabled selected>Unit</option>
+                      <option value="daily">Daily</option>
+                      <option value="weekly">Weekly</option>
+                      <option value="monthly">Monthly</option>
+                    </select>
+                  </div>
+
+                  <p style="margin-bottom: 2px; margin-top: 20px">
+                    When did the patient start/stop the medication?
+                  </p>
+                  <div class="input-group">
+                    <div class="form-control">
+                      <input
+                        type="Date"
+                        id="startDate"
+                        form_ControlName="startMedicationDate"
+                        placeholder="Start Date"
+                      />
+                    </div>
+                    <div class="form-control">
+                      <input
+                        type="Date"
+                        id="stopDate"
+                        form_ControlName="stopMedicationDate"
+                        placeholder="Stop Date"
+                      />
+                    </div>
+                  </div>
+                  
+                </p-tabPanel>
+              </ng-container>
+            </ng-container>
+          </p-tabView>
+        </div>
+      </div>
+      <div class="card" *ngIf="step === 3" formGroupName="medicalHistory">
+        <h3 class="title">Medical History</h3>
+        <p class="text">
+          Please, provide patient's medical history (free text)
+        </p>
+        <textarea
+          class="textarea"
+          name=""
+          id=""
+          cols="30"
+          rows="8"
+          style="resize: none"
+          placeholder="Medical history"
+          form_ControlName="patientMedicalHistory"
+        ></textarea>
+      </div>
+      <div class="card" *ngIf="step === 4" formGroupName="complications">
+        <h3 class="card__title">Complications</h3>
+
+        <p class="section__title">
+          During the previous pregnancies did the patient experience any of the
+          following complications?
+        </p>
+        <div class="radio__group">
+          <div class="radio__group-row">
+            <div class="form-control">
+              <input type="radio" form_ControlName="previousPregnancyComplications" value="No complications in the past" />
+              <label>No complications in the past</label>
+            </div>
+            <div class="form-control">
+              <input type="radio" form_ControlName="previousPregnancyComplications" value="Gestational Diabetes" />
+              <label>Gestational Diabetes</label>
+            </div>
+          </div>
+          <div class="radio__group-row">
+            <div class="form-control">
+              <input type="radio" form_ControlName="previousPregnancyComplications" value="Miscarriage" />
+              <label>Miscarriage</label>
+            </div>
+            <div class="form-control">
+              <input type="radio" form_ControlName="previousPregnancyComplications" value="Preeclapsia" />
+              <label>Preeclapsia</label>
+            </div>
+          </div>
+          <div class="radio__group-row">
+            <div class="form-control">
+              <input type="radio" form_ControlName="previousPregnancyComplications" value="Choice Abortion" />
+              <label>Choice Abortion</label>
+            </div>
+            <div class="form-control">
+              <input type="radio" form_ControlName="previousPregnancyComplications" value="Preterm birth" />
+              <label>Preterm birth</label>
+            </div>
+          </div>
+          <div class="radio__group-row">
+            <div class="form-control">
+              <input type="radio" form_ControlName="previousPregnancyComplications" value="Ectopic or molar pregnancy" />
+              <label>Ectopic or molar pregnancy</label>
+            </div>
+            <div class="form-control">
+              <input type="radio" form_ControlName="previousPregnancyComplications" value="Unknown" />
+              <label>Unknown</label>
+            </div>
+          </div>
+          <div class="radio__group-row">
+            <div class="form-control">
+              <input type="radio" form_ControlName="previousPregnancyComplications" value="Fetal death" />
+              <label>Fetal death</label>
+            </div>
+          </div>
+        </div>
+        <p class="section__title" style="margin-top: 34px">
+          Fill in only when the outcome of pregnancy is known:
+        </p>
+        <div class="input__date">
+          <label>Date of pregnancy outcome</label>
+          <input type="date" form_ControlName="pregnancyOutcomeDate"/>
+        </div>
+        <div class="radio__group">
+          <p class="radio__group-title">
+            What has been the outcome of pregnancy?
+          </p>
+          <div class="radio__group-row">
+            <div class="form-control">
+              <input type="radio" form_ControlName="pregnancyOutcome" value="Born alive at term" />
+              <label>Born alive at term</label>
+            </div>
+            <div class="form-control">
+              <input type="radio" form_ControlName="pregnancyOutcome" value="Misscarriage" />
+              <label>Misscarriage</label>
+            </div>
+          </div>
+          <div class="radio__group-row">
+            <div class="form-control">
+              <input type="radio" form_ControlName="pregnancyOutcome" value="Born preterm Live (before week 38)" />
+              <label>Born preterm Live (before week 38)</label>
+            </div>
+            <div class="form-control">
+              <input type="radio" form_ControlName="pregnancyOutcome" value="Choice Abortion" />
+              <label>Choice Abortion</label>
+            </div>
+          </div>
+          <div class="radio__group-row">
+            <div class="form-control">
+              <input type="radio" form_ControlName="pregnancyOutcome" value="Stillbirth" />
+              <label>Stillbirth</label>
+            </div>
+            <div class="form-control">
+              <input type="radio" form_ControlName="pregnancyOutcome" value="Abortion of choice for medical reasons (ectopic pregnancy,
+              molar or others)" />
+              <label
+                >Abortion of choice for medical reasons (ectopic pregnancy,
+                molar or others)</label
+              >
+            </div>
+          </div>
+        </div>
+        <p class="section__title" style="margin-top: 10px">
+          Information about the newborn
+        </p>
+        <div class="radio__group radio__group--sm">
+          <p class="radio__group-title">Gender</p>
+          <div class="radio__group-input">
+            <input type="radio" form_ControlName="newBornGender" value="Male" />
+            <label>Male</label>
+          </div>
+          <div class="radio__group-input">
+            <input type="radio" form_ControlName="newBornGender" value="Female" />
+            <label>Female</label>
+          </div>
+          <div class="radio__group-input">
+            <input type="radio" form_ControlName="newBornGender" value="Other" />
+            <label>Other</label>
+          </div>
+        </div>
+
+        <div class="inputs">
+          <div class="input-control">
+            <label>Length</label>
+            <div class="input-control--group">
+              <input type="text" form_ControlName="height" class="input input--sm" placeholder="Height" />
+              <select form_ControlName="heightUnits">
+                <option value="" disabled selected>--Unit--</option>
+                <option value="Inches">Inches</option>
+                <option value="Centimeters">Centimeters</option>
+              </select>
+            </div>
+          </div>
+          <div class="input-control">
+            <label>Weight</label>
+            <div class="input-control--group">
+              <input type="text" form_ControlName="weight" class="input input--sm" placeholder="Weight" />
+              <select form_ControlName="weightUnits">
+                <option value="" disabled selected>--Unit--</option>
+                <option value="Pounds">Pounds</option>
+                <option value="Kilograms">Kilograms</option>
+              </select>
+            </div>
+          </div>
+          <div class="input-control">
+            <label>Apgar Score</label>
+            <div class="input-control--group">
+              <input type="text" form_ControlName="apgarScore" class="input" placeholder="Score" />
+            </div>
+          </div>
+        </div>
+
+        <div class="textarea__group">
+          <div class="textarea__wrapper">
+            <label class="textarea__wrapper-title"
+              >Has the newborn suffered congenital malformation(s)/defect(s)?
+              please provide details for each defect</label
+            >
+            <textarea
+              class="textarea"
+              cols="30"
+              rows="10"
+              style="resize: none"
+              placeholder="details"
+              form_ControlName="newBornSufferedCongInfo"
+            ></textarea>
+          </div>
+          <div class="textarea__wrapper">
+            <label class="textarea__wrapper-title"
+              >Please specify the family history or any other risk factors for the reported malformation(s) </label
+            >
+            <textarea
+              class="textarea"
+              cols="30"
+              rows="10"
+              style="resize: none"
+              placeholder="details"
+              form_ControlName="riskFactorsForReportedMalformations"
+            ></textarea>
+          </div>
+          <div class="textarea__wrapper">
+            <label class="textarea__wrapper-title"
+              >Is the congenital malformation considered related to any of the medication(s) used before or during pregnancy? If so, please specify the drug name and duration of exposure. </label
+            >
+            <textarea
+              class="textarea"
+              cols="30"
+              rows="10"
+              style="resize: none"
+              placeholder="details"
+              form_ControlName="congMalfRelatedToMedications"
+            ></textarea>
+          </div>
+        </div>
+      </div>
+      <div class="card card__confirmation" *ngIf="step === 5">
+        <div class="content__wrapper">
+          <h4>Thank You!</h4>
+          <p class="para">
+            Your report has been successfully submitted and will be reviewed.
+            <br />
+            Copy of report has been sent to your email. <br />
+            If permitted, we will contact you if we require more information to
+            fully assess your case.
+          </p>
+          <p class="para">The reference number is</p>
+          <h2>
+            {{this.refno}}
+            <i
+              class="pi pi-copy"
+              style="font-size: 1.5rem; cursor: pointer; font-weight: 300"
+            ></i>
+          </h2>
+          <button class="btn">
+            <i class="pi pi-download"></i>
+            DOWNLOAD REPORT (PDF)
+          </button>
+          <small
+            >Did you know that every single report is valuable in bringing new
+            insights to the product safety profile? <br />
+            Your submission supports our mission in putting patient's safety
+            first! <br />
+            Check out
+            <a href="" style="color: #fff"> https://www.patientsucb.com </a>
+            to learn more about the benefits and risks of drugs, and what <br />
+            we do to ensure the safety of our products.</small
+          >
+        </div>
+      </div>
+    </form>
+    <!-- </div> -->
+    <app-ae-form-steps *ngIf="step <= 3" [count]="activeIndex"></app-ae-form-steps>
+  </div>
+
+  <div class="footer" *ngIf="step <= 3">
+
+    <a *ngIf="step === 1" id="prevbtn"  class="btn__tertiary btn__tertiary--text" (click)="onClickPrev()"
+      >back</a
+    >
+
+    <a *ngIf="step > 1" id="prevbtn"  class="btn__tertiary btn__tertiary--active" (click)="onClickPrev()"
+      >back</a
+    >
+
+    <button *ngIf="step < 3" id="nextbtn" class="btn__tertiary btn__tertiary--active" (click)="onClickNext()">
+      next
+    </button>
+
+    <button *ngIf="step === 3" id="submitbtn" type="submit" class="btn__tertiary btn__tertiary--active" (click)="onSubmit()">
+      Submit
+    </button>
+
+  </div>
+</div>

@@ -11,6 +11,6 @@ export class GenerateReportComponent implements OnInit {
 
   ngOnInit(): void {}
   onClick() {
-    this.router.navigate(['/add-new-report']);
+    this.router.navigate(['/new-follow-up']);
   }
 }

@@ -1,0 +1,76 @@
+.container {
+  width: 267px;
+  height: 500px;
+  position: fixed;
+  right: 50px;
+  color: #fff;
+  &::after {
+    content: "";
+    position: absolute;
+    width: 230px;
+    top: 42px;
+    left: 25px;
+    background-color: #fff;
+    height: 1px;
+    transform-origin: left;
+    transform: rotate(90deg);
+  }
+
+  .progress-bar-title {
+    width: 100%;
+    display: inline-block;
+    padding: 8px 28px 9px 26px;
+    background-color: #00c3e2a1;
+    border-bottom-left-radius: 17px;
+    border-bottom-right-radius: 17px;
+    font-size: 20px;
+    text-transform: capitalize;
+    line-height: 26px;
+    letter-spacing: 0px;
+    font-weight: 500;
+    // position: relative;
+  }
+  .progress__list {
+    margin-top: 34px;
+    list-style: none;
+    &-step {
+      // &:nth-child(){}
+      padding-left: 55px;
+      // margin-left: 20px;
+      position: relative;
+      &::before {
+        content: "";
+        height: 23px;
+        width: 23px;
+        border-radius: 50%;
+        background-color: rgba(255, 255, 255, 0.451);
+        position: absolute;
+        left: 13px;
+        top: 50%;
+        transform: translateY(-50%);
+      }
+      &::after {
+        content: "";
+        height: 11px;
+        width: 11px;
+        border-radius: 50%;
+        position: absolute;
+        background-color: #fff;
+        left: 19px;
+        top: 50%;
+        transform: translateY(-50%);
+      }
+      &:not(:first-child) {
+        margin-top: 42px;
+      }
+      &.active {
+        &::before {
+          background-color: #f0e50a;
+        }
+      }
+      &.success::before {
+        background-color: #1cdb05fa;
+      }
+    }
+  }
+}
