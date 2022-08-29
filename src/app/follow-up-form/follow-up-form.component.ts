@@ -5,17 +5,19 @@ import { HttpClient,HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { AuthInterceptor } from '../interceptors/auth.interceptor';
 import { DatePipe } from '@angular/common';
+import * as CryptoJS from 'crypto-js';
+
 
 // interface Frequency {
 //   name: string;
 // }
 
 @Component({
-  selector: 'app-add-new-report',
-  templateUrl: './add-new-report.component.html',
-  styleUrls: ['./add-new-report.component.scss'],
+  selector: 'app-follow-up-form',
+  templateUrl: './follow-up-form.component.html',
+  styleUrls: ['./follow-up-form.component.scss'],
 })
-export class AddNewReportComponent implements OnInit {
+export class FollowUpFormComponent implements OnInit {
   // reactiveForm: FormGroup;
   // frequencies: Frequency[];
   // selectedFrequency: Frequency;
@@ -24,16 +26,19 @@ export class AddNewReportComponent implements OnInit {
   // =======
   public refno = '. . .';
 
+  public base64Key = "aGlsaXRsZGFwc2NydGtleQ==";
+  key = CryptoJS.enc.Base64.parse(this.base64Key);
+
   public surveyJson = {
     patient: {
-      patientInitials: 'VM',
-      patientDateOfBirth: '22-08-2022 09:06:55',
+      patientInitials: '',
+      patientDateOfBirth: '',
       estimatedBirthDate: '',
-      firstDayLMP: '22-08-2022 09:06:55',
+      firstDayLMP: '',
     },
     product: 
       {
-        medicationTakenByPatient: ['CIMZIA'],
+        medicationTakenByPatient: [''],
         regimen: [{
           drugName: '',
           indication: '',
@@ -45,21 +50,21 @@ export class AddNewReportComponent implements OnInit {
         }]
       },
     medicalHistory: {
-      patientMedicalHistory: 'value',
+      patientMedicalHistory: '',
     },
     complications: {
-      previousPregnancyComplications: ['Unknown'],
-      pregnancyOutcomeDate: '22-08-2022 09:06:55',
-      pregnancyOutcome: ['Miscarriage'],
-      height: 123,
-      heightUnits: 'CM',
+      previousPregnancyComplications: [''],
+      pregnancyOutcomeDate: '',
+      pregnancyOutcome: [''],
+      height: 0,
+      heightUnits: '',
       weight: 80,
-      weightUnits: 'Kilogram',
-      newBornGender: 'Male',
-      apgarScore: '100',
-      newBornSufferedCongInfo: 'yes',
-      riskFactorsForReportedMalformations: 'Miscarriage',
-      congMalfRelatedToMedications: 'yes',
+      weightUnits: '',
+      newBornGender: '',
+      apgarScore: '',
+      newBornSufferedCongInfo: '',
+      riskFactorsForReportedMalformations: '',
+      congMalfRelatedToMedications: '',
     },
   };
 
@@ -181,7 +186,31 @@ export class AddNewReportComponent implements OnInit {
     // this.reactiveForm = new FormGroup({});
     // console.log(this.multiStep);
     // this.activeIndex = this.step;
+
+    /// 1. read the local data
+    /// 2. bind the data to the reactive form element references
+
+    let refArray:any = [];
+    const refArrayString = localStorage.getItem('refs');
+
+    if(refArrayString){
+      refArray = JSON.parse(refArrayString);
+      this.populateForm(refArray);
+    } 
+    
   }
+
+  populateForm(refArray:any){
+
+    // refArray[0].json
+
+    // this.multiStep.controls.patientDetails.controls.estimated_dob = 
+    // this.multiStep.controls.patientDetails.controls.menstrual_date = 
+    // this.multiStep.controls.patientDetails.controls.patient_dob = 
+    // this.multiStep.controls.patientDetails.controls.patient_initials = 
+  }
+
+
   onClickNext() {
     this.activeIndex++;
     if (this.step === 5) {
@@ -264,15 +293,15 @@ export class AddNewReportComponent implements OnInit {
     this.surveyJson.complications.newBornSufferedCongInfo = this.multiStep.value.complications?.newBornSufferedCongInfo || '';
     this.surveyJson.complications.riskFactorsForReportedMalformations = this.multiStep.value.complications?.riskFactorsForReportedMalformations || '';
     this.surveyJson.complications.congMalfRelatedToMedications = this.multiStep.value.complications?.congMalfRelatedToMedications || '';
-
-    
+  
 
     this.onClickNext();
     let jsonObj = JSON.stringify(this.surveyJson, (key, value) => (value === '') ? null : value);
     //console.log(JSON.stringify(this.surveyJson));
     console.log(jsonObj);
+    this.saveLocal(jsonObj);
     // send the data to the server
-    const token = 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJicmlsbHkiLCJpYXQiOjE2NjE0MjQ2OTR9.6SK3LbXQs3Es8LA7vxraGiiNN7MpLMbY2v4hPXR8HLOLGOuMdAY9jPjiGwFhj-bi3xYuKlVy94m_fO-fLTFnSw';
+    const token = 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJicmlsbHkiLCJpYXQiOjE2NjE1MTIxNjN9.MLXWNm_blGPva7nOHfIZQOjwN--noR44korowr6bmWpX1XMGte-Wx-whgtYmYDHv32U9Ogn4woXN3WFal9zafQ';
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
     });
@@ -282,13 +311,60 @@ export class AddNewReportComponent implements OnInit {
     this.http.post('http://172.168.1.82:8080/hilitloginservice/auth/capeicaseintake/capeicaseintakeservice/caseIntakeService/ucbFormSubmit',  jsonObj, {headers})
     .subscribe((res:any)=>{
       console.log('response',res);
+
+      let userObj = this.decryptResponse(res);
+
+      let accessToken   = userObj.accessToken;
+      console.log('Decryped Access Token');
+      console.log(accessToken);
+
       if(res.message === 'Success'){
         let resultTxt = res.result;
         this.refno = resultTxt.split(':')[1];
         console.log(this.refno);
+        //this.saveLocal(jsonObj);
+        // store to local storage
+        
       }
     });
   }
+
+
+  decryptResponse(response: any){
+
+    const crypted  = CryptoJS.enc.Base64.parse(response);
+    let decryptedData = CryptoJS.AES.decrypt(
+      crypted.toString(CryptoJS.enc.Hex),
+      this.key,
+      {
+        mode: CryptoJS.mode.ECB,
+        padding: CryptoJS.pad.Pkcs7
+      }
+    );
+
+    const decryptedText = decryptedData.toString(CryptoJS.enc.Utf8);
+    const str = (decryptedText.substring(decryptedText.lastIndexOf("::")+2,decryptedText.length));
+    const saltLength = parseInt(str)
+    const saltTrailingCount = 2 + str.length;
+    const totalSaltLength = saltLength + saltTrailingCount;
+    const decrypted = decryptedText.substring(0,decryptedText.length - totalSaltLength);
+    const value= JSON.parse(decrypted);
+    return value;
+  }
+
+
+  saveLocal(jsonObj:any){
+    console.log('saving local');
+    let refArray:any = [];
+    const refArrayString = localStorage.getItem('refs');
+
+    if(refArrayString){
+      refArray = JSON.parse(refArrayString);
+    } 
+    refArray.push({[this.refno]: jsonObj})
+    localStorage.setItem('refs', JSON.stringify(refArray));
+  }
+
   // alignCenter(currentStep: any) {}
 }
 
