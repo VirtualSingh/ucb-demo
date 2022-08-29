@@ -2,7 +2,7 @@
 import { Component, ElementRef, OnInit, Renderer2 } from '@angular/core';
 import { Form, FormArray, FormControl, FormGroup } from '@angular/forms';
 import { HttpClient,HttpHeaders } from '@angular/common/http';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AuthInterceptor } from '../interceptors/auth.interceptor';
 import { DatePipe } from '@angular/common';
 import * as CryptoJS from 'crypto-js';
@@ -25,6 +25,8 @@ export class FollowUpFormComponent implements OnInit {
   activeIndex = 1;
   // =======
   public refno = '. . .';
+  action = '';
+  refArray:any = [];
 
   public base64Key = "aGlsaXRsZGFwc2NydGtleQ==";
   key = CryptoJS.enc.Base64.parse(this.base64Key);
@@ -169,7 +171,8 @@ export class FollowUpFormComponent implements OnInit {
     private http: HttpClient,
     private router: Router,
     private elRef: ElementRef,
-    private renderer: Renderer2
+    private renderer: Renderer2,
+    private route:ActivatedRoute
   ) {
     // this.frequencies = [
     //   { name: 'Regular' },
@@ -187,27 +190,47 @@ export class FollowUpFormComponent implements OnInit {
     // console.log(this.multiStep);
     // this.activeIndex = this.step;
 
+
+
     /// 1. read the local data
-    /// 2. bind the data to the reactive form element references
-
-    let refArray:any = [];
-    const refArrayString = localStorage.getItem('refs');
-
-    if(refArrayString){
-      refArray = JSON.parse(refArrayString);
-      this.populateForm(refArray);
-    } 
     
+    this.route.queryParams.subscribe(params => {
+      // console.log(params['form']);
+
+      this.action = params['action'];
+      if(this.action === 'view' || this.action === 'edit'){
+
+        const refArrayString = localStorage.getItem('refs');
+        if(refArrayString){
+          this.refArray = JSON.parse(refArrayString);
+          // let keyArray = Object.keys(this.refArray);
+          // let lastRecObject = this.refArray[this.refArray.length-1];
+          // let lastObject.values(lastRecObject);
+          //console.log(keyArray);
+          /// 2. bind the data to the reactive form element references
+          this.populateForm();
+        } 
+
+      }
+    });
   }
 
-  populateForm(refArray:any){
+  populateForm(){
+    console.log('checking the local storage');
+    //console.log(this.refArray[this.refArray.length-1]);
+    for( let index in this.refArray ){   
+      var value = this.refArray[index]; 
+      console.log(value);
+    }
 
+    // if(this.refArray)
+    // let lastRec = this.refArray.pop();
     // refArray[0].json
-
     // this.multiStep.controls.patientDetails.controls.estimated_dob = 
     // this.multiStep.controls.patientDetails.controls.menstrual_date = 
     // this.multiStep.controls.patientDetails.controls.patient_dob = 
     // this.multiStep.controls.patientDetails.controls.patient_initials = 
+
   }
 
 
