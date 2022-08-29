@@ -3,10 +3,40 @@
     <a href="index.html" class="logo">
       <img src="assets/ucb-logo.png" alt="company logo" class="logo__img" />
     </a>
+    <h1 class="header__title">
+      Standard Medical Follow up Query (SMFQ) <br />
+      Drug Induced Liver Injury
+    </h1>
+    <div class="patient-info">
+      <p class="text text--bold text--black">
+        UCB Global DS database #22HC001940
+      </p>
+      <p class="text text--bold text--black">Patient Initials: NN</p>
+      <p class="text text--bold text--black">34 Yrs | M</p>
+    </div>
   </div>
   <div class="main">
     <div class="card">
       <h3 class="card__title">Patient History</h3>
+      <div class="input-group mt-md">
+        <label for="diagnosis" class="text">Diagnosis</label>
+        <input
+          type="text"
+          id="diagnosis"
+          placeholder="Diagnosis"
+          class="text-input text-input--sm mt-xs"
+        />
+      </div>
+      <div class="input-group mt-md">
+        <label for="medication" class="text">Medication</label>
+        <input
+          type="text"
+          id="medication"
+          placeholder="Medication"
+          class="text-input text-input--sm mt-xs"
+        />
+      </div>
+      <div class="input-group mt-md"></div>
       <div class="input-group mt-md">
         <p class="text">
           Please provide any relevant medical history, do not use the patient’s
@@ -172,6 +202,10 @@
           </div>
         </div>
       </div>
+      <div class="input-group input-group--submit mt-lg">
+        <button class="btn__secondary">Submit</button>
+      </div>
     </div>
   </div>
+  <!-- <div class="footer"></div> -->
 </div>
