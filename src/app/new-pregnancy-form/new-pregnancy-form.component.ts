@@ -272,7 +272,7 @@ export class NewPregnancyFormComponent implements OnInit {
     console.log(jsonObj);
     //this.saveLocal(jsonObj);
     // send the data to the server
-    const token = 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJicmlsbHkiLCJpYXQiOjE2NjE1MTIxNjN9.MLXWNm_blGPva7nOHfIZQOjwN--noR44korowr6bmWpX1XMGte-Wx-whgtYmYDHv32U9Ogn4woXN3WFal9zafQ';
+    const token = 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJicmlsbHkiLCJpYXQiOjE2NjE3NjQwMjV9.56wbUAa0mo8E761dYJBMZFt3LAuBDvCHSxXPzFusmS1uMNwWH6eoXPusw-H-73rdJWo3I4GGXhU9b67xEOdV9A';
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
     });
@@ -288,7 +288,6 @@ export class NewPregnancyFormComponent implements OnInit {
         //console.log(this.refno);
         this.saveLocal(jsonObj);
         // store to local storage
-        
       }
     });
   }
