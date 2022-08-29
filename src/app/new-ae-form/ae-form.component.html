@@ -33,15 +33,15 @@
           <div class="radio__group radio__group--sm">
             <p class="radio__group-title">What is your sex?</p>
             <div class="radio__group-input">
-              <input type="radio" form_ControlName="patient_gender" value="Male" />
+              <input type="radio" name="patient_gender" value="Male" />
               <label>Male</label>
             </div>
             <div class="radio__group-input">
-              <input type="radio" form_ControlName="patient_gender" value="Female" />
+              <input type="radio" name="patient_gender" value="Female" />
               <label>Female</label>
             </div>
             <div class="radio__group-input">
-              <input type="radio" form_ControlName="patient_gender" value="Other" />
+              <input type="radio" name="patient_gender" value="Other" />
               <label>Other</label>
             </div>
           </div>
@@ -50,11 +50,11 @@
           <div class="radio__group radio__group--sm">
             <p class="radio__group-title">Do you wish to be contacted for further information?</p>
             <div class="radio__group-input">
-              <input type="radio" form_ControlName="contactable" value="Yes" />
+              <input type="radio" name="contactable" value="Yes" />
               <label>Yes</label>
             </div>
             <div class="radio__group-input">
-              <input type="radio" form_ControlName="contactable" value="No" />
+              <input type="radio" name="contactable" value="No" />
               <label>No</label>
             </div>
           </div>
@@ -168,39 +168,41 @@
                         placeholder="How the medication being taken?"
                       />
                     </div>
-                    <div class="input-group">
-                      <div class="form-control">
-                        <label for="dosage">Dosage</label>
-                        <div class="input-group-wrapper-full">
-                          <input
-                            type="text"
-                            class="input--sm"
-                            id="dosage"
-                            placeholder="Dose"
-                            form_ControlName="dosage"
-                          />
-                          <select id="dosageUnit" form_ControlName="dosageUnit">
-                            <option value="" disabled selected>Unit</option>
-                            <option value="kilogram">kilogram</option>
-                            <option value="gram">gram</option>
-                            <option value="milligram">milligram</option>
-                            <option value="microgram">microgram</option>
-                            <option value="nanogram">nanogram</option>
-                            <option value="picogram">picogram</option>
-                          </select>
+
+                    
+                    <div class="field-set">
+
+                      <div class="input-group">
+
+                        <div class="form-control">
+                            <label for="dosage">Dosage</label>
+                            <input 
+                              type="text"
+                              class="input--sm"
+                              id="dosage"
+                              placeholder="Dose"
+                              form_ControlName="dosage"
+                            />
+                            <select id="dosageUnit" form_ControlName="dosageUnit">
+                              <option value="" disabled selected>Unit</option>
+                              <option value="milligram">ml</option>
+                              <option value="microgram">mg</option>
+                              <option value="nanogram">mmHG</option>
+                            </select>
+                        </div>
+                        <div class="form-control">
+                            <label for="frequency">Frequency</label>
+                            <select class="input" id="frequency" form_ControlName="frequency">
+                              <option value="" disabled selected>Unit</option>
+                              <option value="daily">Daily</option>
+                              <option value="weekly">Weekly</option>
+                              <option value="monthly">Monthly</option>
+                            </select>
                         </div>
                       </div>
-                    </div>
-
-                  <div class="form-control">
-                    <label for="frequency">Frequency</label>
-                    <select id="frequency" form_ControlName="frequency">
-                      <option value="" disabled selected>Unit</option>
-                      <option value="daily">Daily</option>
-                      <option value="weekly">Weekly</option>
-                      <option value="monthly">Monthly</option>
-                    </select>
+                      
                   </div>
+                    
 
                   <p style="margin-bottom: 2px; margin-top: 20px">
                     When did the patient start/stop the medication?
@@ -230,217 +232,133 @@
           </p-tabView>
         </div>
       </div>
-      <div class="card" *ngIf="step === 3" formGroupName="medicalHistory">
-        <h3 class="title">Medical History</h3>
-        <p class="text">
-          Please, provide patient's medical history (free text)
-        </p>
-        <textarea
-          class="textarea"
-          name=""
-          id=""
-          cols="30"
-          rows="8"
-          style="resize: none"
-          placeholder="Medical history"
-          form_ControlName="patientMedicalHistory"
-        ></textarea>
-      </div>
-      <div class="card" *ngIf="step === 4" formGroupName="complications">
-        <h3 class="card__title">Complications</h3>
+      <div class="card" *ngIf="step === 3" form-GroupName="events">
+        <h3 class="title">Event Name</h3>
+        <div class="field-set">
+          <div class="input-group">
+            <label for="name">What is the Adverse event? </label>
+            <input
+              type="text"
+              form_ControlName="event_name"
+              id="event_name"
+              placeholder="Event name"
+            />
+          </div>
+          <div class="input-group">
+            <label for="dob">When did event start? </label>
+            <input
+              type="date"
+              form_ControlName="start_date"
+              id="start_date"
+              placeholder="Date"
+            />
+          </div>
+        </div>
 
-        <p class="section__title">
-          During the previous pregnancies did the patient experience any of the
-          following complications?
+        <p class="text">
+          Did the side effect lead to any?
         </p>
-        <div class="radio__group">
-          <div class="radio__group-row">
+        <div class="checkbox__group2">
+          <div class="checkbox__group-row2">
             <div class="form-control">
-              <input type="radio" form_ControlName="previousPregnancyComplications" value="No complications in the past" />
-              <label>No complications in the past</label>
+              <input type="checkbox" id="death" form_ControlName="side_effects" value="Death" />
+              <label for="death">Death</label>
             </div>
             <div class="form-control">
-              <input type="radio" form_ControlName="previousPregnancyComplications" value="Gestational Diabetes" />
-              <label>Gestational Diabetes</label>
-            </div>
-          </div>
-          <div class="radio__group-row">
-            <div class="form-control">
-              <input type="radio" form_ControlName="previousPregnancyComplications" value="Miscarriage" />
-              <label>Miscarriage</label>
-            </div>
-            <div class="form-control">
-              <input type="radio" form_ControlName="previousPregnancyComplications" value="Preeclapsia" />
-              <label>Preeclapsia</label>
+              <input type="checkbox" id="hospitalization" form_ControlName="side_effects" value="Hospitalization" />
+              <label for="hospitalization">Hospitalization</label>
             </div>
           </div>
-          <div class="radio__group-row">
+          <div class="checkbox__group-row2">
             <div class="form-control">
-              <input type="radio" form_ControlName="previousPregnancyComplications" value="Choice Abortion" />
-              <label>Choice Abortion</label>
+              <input type="checkbox" id="life-threatening" form_ControlName="side_effects" value="Life Threatening" />
+              <label for="life-threatening">Life Threatening</label>
             </div>
             <div class="form-control">
-              <input type="radio" form_ControlName="previousPregnancyComplications" value="Preterm birth" />
-              <label>Preterm birth</label>
-            </div>
-          </div>
-          <div class="radio__group-row">
-            <div class="form-control">
-              <input type="radio" form_ControlName="previousPregnancyComplications" value="Ectopic or molar pregnancy" />
-              <label>Ectopic or molar pregnancy</label>
-            </div>
-            <div class="form-control">
-              <input type="radio" form_ControlName="previousPregnancyComplications" value="Unknown" />
-              <label>Unknown</label>
+              <input type="checkbox" id="disability" form_ControlName="side_effects" value="Disability" />
+              <label for="disability">Disability</label>
             </div>
           </div>
-          <div class="radio__group-row">
+          <div class="checkbox__group-row2">
             <div class="form-control">
-              <input type="radio" form_ControlName="previousPregnancyComplications" value="Fetal death" />
-              <label>Fetal death</label>
-            </div>
-          </div>
-        </div>
-        <p class="section__title" style="margin-top: 34px">
-          Fill in only when the outcome of pregnancy is known:
-        </p>
-        <div class="input__date">
-          <label>Date of pregnancy outcome</label>
-          <input type="date" form_ControlName="pregnancyOutcomeDate"/>
-        </div>
-        <div class="radio__group">
-          <p class="radio__group-title">
-            What has been the outcome of pregnancy?
-          </p>
-          <div class="radio__group-row">
-            <div class="form-control">
-              <input type="radio" form_ControlName="pregnancyOutcome" value="Born alive at term" />
-              <label>Born alive at term</label>
+              <input type="checkbox" id="congenital-anomaly" form_ControlName="side_effects" value="Congenital anomaly" />
+              <label for="congenital-anomaly">Congenital anomaly</label>
             </div>
             <div class="form-control">
-              <input type="radio" form_ControlName="pregnancyOutcome" value="Misscarriage" />
-              <label>Misscarriage</label>
-            </div>
-          </div>
-          <div class="radio__group-row">
-            <div class="form-control">
-              <input type="radio" form_ControlName="pregnancyOutcome" value="Born preterm Live (before week 38)" />
-              <label>Born preterm Live (before week 38)</label>
-            </div>
-            <div class="form-control">
-              <input type="radio" form_ControlName="pregnancyOutcome" value="Choice Abortion" />
-              <label>Choice Abortion</label>
-            </div>
-          </div>
-          <div class="radio__group-row">
-            <div class="form-control">
-              <input type="radio" form_ControlName="pregnancyOutcome" value="Stillbirth" />
-              <label>Stillbirth</label>
-            </div>
-            <div class="form-control">
-              <input type="radio" form_ControlName="pregnancyOutcome" value="Abortion of choice for medical reasons (ectopic pregnancy,
-              molar or others)" />
-              <label
-                >Abortion of choice for medical reasons (ectopic pregnancy,
-                molar or others)</label
+              <input type="checkbox" id="ime" form_ControlName="side_effects" value="Important medical Event" />
+              <label for="ime"
+                >Important medical Event</label
               >
             </div>
           </div>
         </div>
-        <p class="section__title" style="margin-top: 10px">
-          Information about the newborn
+
+
+        <p class="section__title">
+          What was the action taken when the side effect was noticed? 
         </p>
-        <div class="radio__group radio__group--sm">
-          <p class="radio__group-title">Gender</p>
-          <div class="radio__group-input">
-            <input type="radio" form_ControlName="newBornGender" value="Male" />
-            <label>Male</label>
-          </div>
-          <div class="radio__group-input">
-            <input type="radio" form_ControlName="newBornGender" value="Female" />
-            <label>Female</label>
-          </div>
-          <div class="radio__group-input">
-            <input type="radio" form_ControlName="newBornGender" value="Other" />
-            <label>Other</label>
-          </div>
-        </div>
-
-        <div class="inputs">
-          <div class="input-control">
-            <label>Length</label>
-            <div class="input-control--group">
-              <input type="text" form_ControlName="height" class="input input--sm" placeholder="Height" />
-              <select form_ControlName="heightUnits">
-                <option value="" disabled selected>--Unit--</option>
-                <option value="Inches">Inches</option>
-                <option value="Centimeters">Centimeters</option>
-              </select>
+        <div class="radio__group">
+          <div class="radio__group-row">
+            <div class="form-control">
+              <input type="radio" id="discontinued" name="actionTaken" value="Discontinued" />
+              <label for="discontinued">Discontinued</label>
+            </div>
+            <div class="form-control">
+              <input type="radio" id="unknown" name="actionTaken" value="Unknown" />
+              <label for="unknown">Unknown</label>
             </div>
           </div>
-          <div class="input-control">
-            <label>Weight</label>
-            <div class="input-control--group">
-              <input type="text" form_ControlName="weight" class="input input--sm" placeholder="Weight" />
-              <select form_ControlName="weightUnits">
-                <option value="" disabled selected>--Unit--</option>
-                <option value="Pounds">Pounds</option>
-                <option value="Kilograms">Kilograms</option>
-              </select>
+          <div class="radio__group-row">
+            <div class="form-control">
+              <input type="radio" id="dose-reduced" name="actionTaken" value="Dose Reduced" />
+              <label for="dose-reduced">Dose Reduced</label>
+            </div>
+            <div class="form-control">
+              <input type="radio" id="not-applicable" name="actionTaken" value="Not applicable" />
+              <label for="not-applicable">Not applicable</label>
             </div>
           </div>
-          <div class="input-control">
-            <label>Apgar Score</label>
-            <div class="input-control--group">
-              <input type="text" form_ControlName="apgarScore" class="input" placeholder="Score" />
+          <div class="radio__group-row">
+            <div class="form-control">
+              <input type="radio" id="dose-increased" name="actionTaken" value="Dose increased" />
+              <label for="dose-increased">Dose increased</label>
+            </div>
+            <div class="form-control">
+              <input type="radio" id="no-change" name="actionTaken" value="Dose not changed" />
+              <label for="no-change">Dose not changed</label>
             </div>
           </div>
         </div>
 
-        <div class="textarea__group">
-          <div class="textarea__wrapper">
-            <label class="textarea__wrapper-title"
-              >Has the newborn suffered congenital malformation(s)/defect(s)?
-              please provide details for each defect</label
-            >
-            <textarea
-              class="textarea"
-              cols="30"
-              rows="10"
-              style="resize: none"
-              placeholder="details"
-              form_ControlName="newBornSufferedCongInfo"
-            ></textarea>
+        <p class="section__title">
+          What was the outcome of the side effect condition? 
+        </p>
+        <div class="radio__group">
+          <div class="radio__group-row">
+            <div class="form-control">
+              <input type="radio" id="recovered" name="actionTaken" value="Recovered" />
+              <label for="recovered">Recovered</label>
+            </div>
+            <div class="form-control">
+              <input type="radio" id="not-recovered" name="actionTaken" value="Not Recovered" />
+              <label for="not-recovered">Not Recovered</label>
+            </div>
           </div>
-          <div class="textarea__wrapper">
-            <label class="textarea__wrapper-title"
-              >Please specify the family history or any other risk factors for the reported malformation(s) </label
-            >
-            <textarea
-              class="textarea"
-              cols="30"
-              rows="10"
-              style="resize: none"
-              placeholder="details"
-              form_ControlName="riskFactorsForReportedMalformations"
-            ></textarea>
-          </div>
-          <div class="textarea__wrapper">
-            <label class="textarea__wrapper-title"
-              >Is the congenital malformation considered related to any of the medication(s) used before or during pregnancy? If so, please specify the drug name and duration of exposure. </label
-            >
-            <textarea
-              class="textarea"
-              cols="30"
-              rows="10"
-              style="resize: none"
-              placeholder="details"
-              form_ControlName="congMalfRelatedToMedications"
-            ></textarea>
+          <div class="radio__group-row">
+            <div class="form-control">
+              <input type="radio" id="recovering" name="actionTaken" value="Recovering" />
+              <label for="recovering">Recovering</label>
+            </div>
+            <div class="form-control">
+              <input type="radio" id="unknown" name="actionTaken" value="Unknown" />
+              <label for="unknown">Unknown</label>
+            </div>
           </div>
         </div>
+
       </div>
-      <div class="card card__confirmation" *ngIf="step === 5">
+     
+      <div class="card card__confirmation" *ngIf="step === 4">
         <div class="content__wrapper">
           <h4>Thank You!</h4>
           <p class="para">

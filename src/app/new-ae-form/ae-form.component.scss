@@ -509,6 +509,7 @@
         }
       }
     }
+    
   }
   .textarea__group {
     width: 100%;
@@ -538,4 +539,32 @@
 .max-height {
   min-height: calc(100vh - 90px) !important;
   overflow: hidden;
+}
+
+.checkbox__group2{
+  .form-control {
+    width: 50%;
+    label {
+      text-transform: uppercase;
+      letter-spacing: 0.15px;
+      line-height: 24px;
+      font-size: 16px;
+      color: #fff;
+    }
+    input[type="checkbox"] {
+      height: 21px;
+      width: 21px;
+      border-radius: 3px;
+      margin-right: 13px;
+      border: 2px solid #fff;
+      vertical-align: middle;
+      background: #00c3e2a1;
+      transform: translateY(-1px);
+    }
+  }
+  .checkbox__group-row2{
+    width: 100%;
+    display: flex;
+    margin-bottom: 20px;
+  }
 }

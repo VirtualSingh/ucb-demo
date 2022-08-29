@@ -22,7 +22,7 @@ export class NewAEFormComponent implements OnInit {
   // <<<<<<< HEAD
   activeIndex = 1;
   // =======
-  public refno = '. . .';
+  public refno = '789';
 
   public surveyJson = {
     patient: {
@@ -104,8 +104,6 @@ export class NewAEFormComponent implements OnInit {
     medicalHistory: new FormGroup({
       patientMedicalHistory: new FormControl(''),
     })
-    
-
   });
 
   onDrugsChange(e: any) {
@@ -172,12 +170,11 @@ export class NewAEFormComponent implements OnInit {
   }
   onClickNext() {
     this.activeIndex++;
-    if (this.step === 5) {
+    if (this.step === 4) {
       return;
     } else {
       this.step = this.step + 1;
-
-      if (this.step > 4) {
+      if (this.step > 3) {
         this.renderer.addClass(this.el, 'align__center');
         this.renderer.addClass(this.mainEl, 'max-height');
       }
@@ -193,7 +190,7 @@ export class NewAEFormComponent implements OnInit {
       return;
     } else {
       this.step = this.step - 1;
-      if (this.step <= 4) {
+     if (this.step <= 3) {
         this.renderer.removeClass(this.el, 'align__center');
         this.renderer.removeClass(this.mainEl, 'max-height');
       }
@@ -201,7 +198,7 @@ export class NewAEFormComponent implements OnInit {
   }
   onSubmit() {
 
-    console.log(this.aeForm.value);
+    // console.log(this.aeForm.value);
 
     // let estimated_dob = this.aeForm.value.patientDetails?.estimated_dob;
     // this.surveyJson.patient.estimatedBirthDate = new DatePipe('en').transform(estimated_dob, 'd-MM-yyyy') || '';
@@ -214,27 +211,27 @@ export class NewAEFormComponent implements OnInit {
     
     // this.surveyJson.patient.patientInitials = this.aeForm.value.patientDetails?.patient_initials || '';
 
-    this.surveyJson.product.medicationTakenByPatient = this.aeForm.value.drugs || [];
-    let j=0;
-    this.aeForm.value.medicationArray?.forEach((regimenItem: any, i) => {
+    // this.surveyJson.product.medicationTakenByPatient = this.aeForm.value.drugs || [];
+    // let j=0;
+    // this.aeForm.value.medicationArray?.forEach((regimenItem: any, i) => {
       
-      const NewRegimen = {
-        drugName:regimenItem.drugName,
-        dose: regimenItem.dosage,
-        units:regimenItem.dosageUnit,
-        frequency: regimenItem.frequency,
-        startDate: new DatePipe('en').transform(regimenItem.startMedicationDate, 'd-MM-yyyy') || '',
-        endDate: new DatePipe('en').transform(regimenItem.stopMedicationDate, 'd-MM-yyyy') || '',
-        indication: regimenItem.indication
-      };
+    //   const NewRegimen = {
+    //     drugName:regimenItem.drugName,
+    //     dose: regimenItem.dosage,
+    //     units:regimenItem.dosageUnit,
+    //     frequency: regimenItem.frequency,
+    //     startDate: new DatePipe('en').transform(regimenItem.startMedicationDate, 'd-MM-yyyy') || '',
+    //     endDate: new DatePipe('en').transform(regimenItem.stopMedicationDate, 'd-MM-yyyy') || '',
+    //     indication: regimenItem.indication
+    //   };
       
-      this.surveyJson.product.regimen.push(NewRegimen);
+    //   this.surveyJson.product.regimen.push(NewRegimen);
          
       
-    });
+    // });
 
-    if(this.surveyJson.product.regimen.length>1)
-    this.surveyJson.product.regimen.shift(); // removing first record from the regimen array as it is dummy
+    // if(this.surveyJson.product.regimen.length>1)
+    // this.surveyJson.product.regimen.shift(); // removing first record from the regimen array as it is dummy
 
     // this.surveyJson.medicalHistory.patientMedicalHistory = this.aeForm.value.medicalHistory?.patientMedicalHistory || '';
 
@@ -255,30 +252,30 @@ export class NewAEFormComponent implements OnInit {
   
 
     this.onClickNext();
-    let jsonObj = JSON.stringify(this.surveyJson, (key, value) => (value === '') ? null : value);
+    // let jsonObj = JSON.stringify(this.surveyJson, (key, value) => (value === '') ? null : value);
     //console.log(JSON.stringify(this.surveyJson));
-    console.log(jsonObj);
+    // console.log(jsonObj);
     //this.saveLocal(jsonObj);
     // send the data to the server
-    const token = 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJicmlsbHkiLCJpYXQiOjE2NjE1MTIxNjN9.MLXWNm_blGPva7nOHfIZQOjwN--noR44korowr6bmWpX1XMGte-Wx-whgtYmYDHv32U9Ogn4woXN3WFal9zafQ';
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-    });
+    // const token = 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJicmlsbHkiLCJpYXQiOjE2NjE1MTIxNjN9.MLXWNm_blGPva7nOHfIZQOjwN--noR44korowr6bmWpX1XMGte-Wx-whgtYmYDHv32U9Ogn4woXN3WFal9zafQ';
+    // const headers = new HttpHeaders({
+    //   'Content-Type': 'application/json',
+    // });
     
-    AuthInterceptor.accessToken = token; // ADDED THROUGH THE INTERCEPTOR
+    // AuthInterceptor.accessToken = token; // ADDED THROUGH THE INTERCEPTOR
     //this.http.post('http://172.168.1.82:8080/hilitloginservice/auth/capeicaseintake/capeicaseintakeservice/caseIntakeService/ucbFormSubmit',  this.surveyJson, {headers})
-    this.http.post('http://172.168.1.82:8080/hilitloginservice/auth/capeicaseintake/capeicaseintakeservice/caseIntakeService/ucbFormSubmit',  jsonObj, {headers})
-    .subscribe((res:any)=>{
-      console.log('response',res);
-      if(res.message === 'Success'){
-        let resultTxt = res.result;
-        this.refno = resultTxt.split(':')[1];
-        //console.log(this.refno);
-        this.saveLocal(jsonObj);
-        // store to local storage
+    // this.http.post('http://172.168.1.82:8080/hilitloginservice/auth/capeicaseintake/capeicaseintakeservice/caseIntakeService/ucbFormSubmit',  jsonObj, {headers})
+    // .subscribe((res:any)=>{
+    //   console.log('response',res);
+    //   if(res.message === 'Success'){
+    //     let resultTxt = res.result;
+    //     this.refno = resultTxt.split(':')[1];
+    //     //console.log(this.refno);
+    //     this.saveLocal(jsonObj);
+    //     // store to local storage
         
-      }
-    });
+    //   }
+    // });
   }
 
   saveLocal(jsonObj:any){
@@ -292,7 +289,6 @@ export class NewAEFormComponent implements OnInit {
     refArray.push({[this.refno]: jsonObj})
     localStorage.setItem('refs', JSON.stringify(refArray));
   }
-
   // alignCenter(currentStep: any) {}
 }
 
