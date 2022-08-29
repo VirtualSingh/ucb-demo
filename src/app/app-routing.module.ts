@@ -9,6 +9,7 @@ import { GenerateReportComponent } from './generate-report/generate-report.compo
 import { MainComponent } from './main/main.component';
 import { ReporterInfoComponent } from './reporter-info/reporter-info.component';
 import { FollowUpFormComponent } from './follow-up-form/follow-up-form.component';
+import { AeFollowupFormComponent } from './ae-followup-form/ae-followup-form.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'main', pathMatch: 'full' },
@@ -21,6 +22,7 @@ const routes: Routes = [
   { path: 'ae-form', component: NewAEFormComponent },
   { path: 'generate-report', component: GenerateReportComponent },
   { path: 'new-follow-up', component: FollowUpFormComponent },
+  { path: 'ae-followup-form', component: AeFollowupFormComponent },
 ];
 
 @NgModule({

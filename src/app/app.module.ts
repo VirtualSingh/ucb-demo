@@ -22,6 +22,7 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
 import { FollowUpFormComponent } from './follow-up-form/follow-up-form.component';
 import {NewAEFormComponent} from './new-ae-form/ae-form.component';
+import { AeFollowupFormComponent } from './ae-followup-form/ae-followup-form.component';
 
 @NgModule({
   declarations: [
@@ -37,6 +38,7 @@ import {NewAEFormComponent} from './new-ae-form/ae-form.component';
     AEStepsComponent,
     GenerateReportComponent,
     FollowUpFormComponent,
+    AeFollowupFormComponent,
   ],
   imports: [
     FormsModule,

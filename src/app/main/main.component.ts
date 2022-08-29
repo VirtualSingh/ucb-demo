@@ -9,16 +9,15 @@ import { Observable, tap } from 'rxjs';
   templateUrl: './main.component.html',
   styleUrls: ['./main.component.scss'],
 })
-
 export class MainComponent implements OnInit {
-  constructor(private router: Router, private apiService:ApiService) {}
-  ngOnInit(): void { 
+  constructor(private router: Router, private apiService: ApiService) {}
+  ngOnInit(): void {
     this.apiService.login().subscribe(
       (data) => console.log(data),
       (err) => {
-        console.log(err)
+        console.log(err);
       }
-    )
+    );
   }
   onClickNavigate() {
     this.router.navigate(['/menu-page']);
