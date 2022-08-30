@@ -1,7 +1,7 @@
 // Pregnancy Followup form component
 
 // import { style } from '@angular/animations';
-import { Component, ElementRef, OnInit, Renderer2 } from '@angular/core';
+import { AfterViewChecked, ChangeDetectionStrategy, Component, ElementRef, OnInit, Renderer2 } from '@angular/core';
 import { Form, FormArray, FormControl, FormGroup } from '@angular/forms';
 import { HttpClient,HttpHeaders } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -66,8 +66,9 @@ interface Survey {
   selector: 'app-follow-up-form',
   templateUrl: './follow-up-form.component.html',
   styleUrls: ['./follow-up-form.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class FollowUpFormComponent implements OnInit, DoCheck {
+export class FollowUpFormComponent implements OnInit, DoCheck, AfterViewChecked {
   // reactiveForm: FormGroup;
   // frequencies: Frequency[];
   // selectedFrequency: Frequency;
@@ -269,53 +270,83 @@ export class FollowUpFormComponent implements OnInit, DoCheck {
     });
   }
   cbCheckValue(cbName:string){
-    console.log('checking',this.lastRecObj.product.medicationTakenByPatient.indexOf('cbName'));
+    
     if(this.lastRecObj.product.medicationTakenByPatient.indexOf(cbName) > -1) return true;
     else return null;
   }
 
   rbCheckValue(rbValue:string){
-    if(this.lastRecObj.complications.previousPregnancyComplications.indexOf(rbValue) > -1) return true;
+    // console.log(rbValue);
+    // console.log('checking',this.lastRecObj.complications.previousPregnancyComplications.indexOf(rbValue));
+    if(this.lastRecObj.complications.previousPregnancyComplications.indexOf(rbValue) > -1) {
+      this.multiStep.controls.complications.controls.previousPregnancyComplications.setValue(rbValue);
+      return true;
+    }
     else return null;
   }
   rbPregnancyOutcomeCheckValue(rbValue:string){
-    if(this.lastRecObj.complications.pregnancyOutcome.indexOf(rbValue) > -1) return true;
+    if(this.lastRecObj.complications.pregnancyOutcome.indexOf(rbValue) > -1) {
+      this.multiStep.controls.complications.controls.pregnancyOutcome.setValue(rbValue);
+      return true;}
     else return null;
   }
 
   rbnbGenderCheckValue(rbValue:string){
-    if(this.lastRecObj.complications.newBornGender.indexOf(rbValue) > -1) return true;
+    if(this.lastRecObj.complications.newBornGender.indexOf(rbValue) > -1) {
+      this.multiStep.controls.complications.controls.newBornGender.setValue(rbValue);
+      return true;}
     else return null;
   }
 
+
+  normalizeDate(dt:any){
+    if(dt) {
+      let dd = dt.split('-')[0];
+      if(dd.length === 1) dd = '0'+dd;
+      let mm = dt.split('-')[1];
+      if(mm.length === 1) mm = '0'+mm;
+      let yyyy = dt.split('-')[2];
+      return yyyy+'-'+mm+'-'+dd;
+    } else return '';
+  }
+  
+
   populateForm(){
-    this.multiStep.controls.patientDetails.controls.estimated_dob.setValue(new DatePipe('en').transform(this.lastRecObj.patient.estimatedBirthDate,'yyyy-MM-dd'));
-    this.multiStep.controls.patientDetails.controls.menstrual_date.setValue(new DatePipe('en').transform(this.lastRecObj.patient.firstDayLMP,'yyyy-MM-dd'));
-    this.multiStep.controls.patientDetails.controls.patient_dob.setValue(new DatePipe('en').transform(this.lastRecObj.patient.patientDateOfBirth,'yyyy-MM-dd'));
+   
+    this.multiStep.controls.patientDetails.controls.estimated_dob.setValue(this.normalizeDate(this.lastRecObj.patient.estimatedBirthDate));
+    this.multiStep.controls.patientDetails.controls.menstrual_date.setValue(this.normalizeDate(this.lastRecObj.patient.firstDayLMP));
+    this.multiStep.controls.patientDetails.controls.patient_dob.setValue(this.normalizeDate(this.lastRecObj.patient.patientDateOfBirth));
     this.multiStep.controls.patientDetails.controls.patient_initials.setValue(this.lastRecObj.patient.patientInitials);
+    //this.multiStep.value.medicationArray?.push(regimen);
+    const medArray: FormArray = this.multiStep.get('medicationArray') as FormArray;
     this.lastRecObj.product.regimen.forEach((regimen: Regimen, i) => {
-      //this.multiStep.value.medicationArray?.push(regimen);
-      const medArray: FormArray = this.multiStep.get(
-        'medicationArray'
-      ) as FormArray;
       const medication = new FormGroup({
         drugName: new FormControl(regimen.drugName),
         dosage: new FormControl(regimen.dose),
         dosageUnit: new FormControl(regimen.units),
         frequency: new FormControl(regimen.frequency),
-        startMedicationDate: new FormControl(new DatePipe('en').transform(regimen.startDate,'yyyy-MM-dd')),
-        stopMedicationDate: new FormControl(new DatePipe('en').transform(regimen.endDate,'yyyy-MM-dd')),
+        startMedicationDate: new FormControl(this.normalizeDate(regimen.startDate)),
+        stopMedicationDate: new FormControl(this.normalizeDate(regimen.endDate)),
         indication: new FormControl(regimen.indication)
       });
       medArray.push(medication);
-      // this.cd.detectChanges();
-
-
     });
 
+    console.log('drug array length');
+    console.log(this.multiStep.controls.drugs.length);
+    console.log('medicatin array length');
+    console.log(this.multiStep.controls.medicationArray.controls.length);
+
     this.multiStep.controls.medicalHistory.controls.patientMedicalHistory.setValue(this.lastRecObj.medicalHistory.patientMedicalHistory);
-    this.multiStep.controls.complications.controls.pregnancyOutcomeDate.setValue(new DatePipe('en').transform(this.lastRecObj.complications.pregnancyOutcomeDate,'yyyy-MM-dd'));
-    
+    this.multiStep.controls.complications.controls.pregnancyOutcomeDate.setValue(this.normalizeDate(this.lastRecObj.complications.pregnancyOutcomeDate));
+    this.multiStep.controls.complications.controls.height.setValue(this.lastRecObj.complications.height?.toString() || null);
+    this.multiStep.controls.complications.controls.heightUnits.setValue(this.lastRecObj.complications.heightUnits);
+    this.multiStep.controls.complications.controls.weight.setValue(this.lastRecObj.complications.weight?.toString() || null);
+    this.multiStep.controls.complications.controls.weightUnits.setValue(this.lastRecObj.complications.weightUnits);
+    this.multiStep.controls.complications.controls.apgarScore.setValue(this.lastRecObj.complications.apgarScore);
+    this.multiStep.controls.complications.controls.newBornSufferedCongInfo.setValue(this.lastRecObj.complications.newBornSufferedCongInfo);
+    this.multiStep.controls.complications.controls.riskFactorsForReportedMalformations.setValue(this.lastRecObj.complications.riskFactorsForReportedMalformations);
+    this.multiStep.controls.complications.controls.congMalfRelatedToMedications.setValue(this.lastRecObj.complications.congMalfRelatedToMedications);
 
   }
 
@@ -325,7 +356,13 @@ export class FollowUpFormComponent implements OnInit, DoCheck {
       return;
     } else {
       this.step = this.step + 1;
+      
+      if(this.step === 2){
+        
+      }
 
+
+      this.cd.detectChanges();
       if (this.step > 4) {
         this.renderer.addClass(this.el, 'align__center');
         this.renderer.addClass(this.mainEl, 'max-height');
@@ -470,7 +507,19 @@ export class FollowUpFormComponent implements OnInit, DoCheck {
   }
 
   ngDoCheck(){
-    
+    this.cd.markForCheck();
+    console.log('do check');
+  }
+
+  ngAfterViewChecked(): void {
+    this.cd.markForCheck();
+    console.log('after view checked');
+  }
+
+
+  markforChecked(){
+    console.log('mark for checked');
+    this.cd.detectChanges();
   }
 
   // alignCenter(currentStep: any) {}

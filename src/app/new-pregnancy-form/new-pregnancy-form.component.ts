@@ -272,7 +272,7 @@ export class NewPregnancyFormComponent implements OnInit {
     console.log(jsonObj);
     this.saveLocal(jsonObj);
     // send the data to the server
-    const token = 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJicmlsbHkiLCJpYXQiOjE2NjE3ODExMDN9.4VBAZfc64YP1K211n9uSwyfISe3cOQ-A0RDJrnTHBG1LXceENPGaU77xPkoCUdYuMr3KnH85fQx2nB6TE2wQbQ';
+    const token = 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJicmlsbHkiLCJpYXQiOjE2NjE4NjA4OTV9.ip5bZOi_-NiCSqLCPoVff4osLK6lVA7vFv808tQ2HqxylEBocgkXayCFXBpr7Xv5rl837nj8M5RRne3IUgKZoA';
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
     });
