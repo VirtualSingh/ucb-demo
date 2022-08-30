@@ -1,8 +1,8 @@
 // import { style } from '@angular/animations';
 import { Component, ElementRef, OnInit, Renderer2 } from '@angular/core';
 import { Form, FormArray, FormControl, FormGroup } from '@angular/forms';
-import { HttpClient,HttpHeaders } from '@angular/common/http';
-import { Router } from '@angular/router';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AuthInterceptor } from '../interceptors/auth.interceptor';
 import { DatePipe } from '@angular/common';
 
@@ -21,6 +21,7 @@ export class NewAEFormComponent implements OnInit {
   // selectedFrequency: Frequency;
   // <<<<<<< HEAD
   activeIndex = 1;
+
   // =======
   public refno = '789';
 
@@ -31,10 +32,10 @@ export class NewAEFormComponent implements OnInit {
       estimatedBirthDate: '',
       firstDayLMP: '22-08-2022 09:06:55',
     },
-    product: 
-      {
-        medicationTakenByPatient: ['CIMZIA'],
-        regimen: [{
+    product: {
+      medicationTakenByPatient: ['CIMZIA'],
+      regimen: [
+        {
           drugName: '',
           indication: '',
           dose: '',
@@ -42,8 +43,9 @@ export class NewAEFormComponent implements OnInit {
           frequency: '',
           startDate: '',
           endDate: '',
-        }]
-      },
+        },
+      ],
+    },
     medicalHistory: {
       patientMedicalHistory: 'value',
     },
@@ -65,7 +67,7 @@ export class NewAEFormComponent implements OnInit {
 
   // >>>>>>> 4784c0793ea257eed09d681e47d88d70b5dd0bb8
   mainEl: any;
-  step = 1;
+  step: any = 1;
   currentStep: any;
   el: any;
   selectedValues: string[] = [];
@@ -90,27 +92,25 @@ export class NewAEFormComponent implements OnInit {
     drugs: new FormArray([]),
     medicationArray: new FormArray([
       // initially it will be empty
-       new FormGroup({
-          drugName: new FormControl(''),
-          reasonForDrug: new FormControl(''),
-          medicationChannel: new FormControl(''),
-          dosage : new FormControl(''),
-          dosageUnit : new FormControl(''),
-          frequency : new FormControl(''),
-          startMedicationDate : new FormControl(''),
-          stopMedicationDate : new FormControl(''),
-      })
+      new FormGroup({
+        drugName: new FormControl(''),
+        reasonForDrug: new FormControl(''),
+        medicationChannel: new FormControl(''),
+        dosage: new FormControl(''),
+        dosageUnit: new FormControl(''),
+        frequency: new FormControl(''),
+        startMedicationDate: new FormControl(''),
+        stopMedicationDate: new FormControl(''),
+      }),
     ]),
     medicalHistory: new FormGroup({
       patientMedicalHistory: new FormControl(''),
-    })
+    }),
   });
 
   onDrugsChange(e: any) {
     const drugsArrayTemp: FormArray = this.aeForm.get('drugs') as FormArray;
-    const medArray: FormArray = this.aeForm.get(
-      'medicationArray'
-    ) as FormArray;
+    const medArray: FormArray = this.aeForm.get('medicationArray') as FormArray;
 
     if (e.target.checked) {
       drugsArrayTemp.push(new FormControl(e.target.value));
@@ -150,7 +150,8 @@ export class NewAEFormComponent implements OnInit {
     private http: HttpClient,
     private router: Router,
     private elRef: ElementRef,
-    private renderer: Renderer2
+    private renderer: Renderer2,
+    private route: ActivatedRoute
   ) {
     // this.frequencies = [
     //   { name: 'Regular' },
@@ -167,6 +168,12 @@ export class NewAEFormComponent implements OnInit {
     // this.reactiveForm = new FormGroup({});
     // console.log(this.aeForm);
     // this.activeIndex = this.step;
+    if (this.route.snapshot.queryParamMap.get('step') === '4') {
+      this.step = Number(this.route.snapshot.queryParamMap.get('step'));
+      this.renderer.addClass(this.el, 'align__center');
+      this.renderer.addClass(this.mainEl, 'max-height');
+    }
+    // console.log(this.route.snapshot.queryParamMap.get('step'));
   }
   onClickNext() {
     this.activeIndex++;
@@ -190,14 +197,13 @@ export class NewAEFormComponent implements OnInit {
       return;
     } else {
       this.step = this.step - 1;
-     if (this.step <= 3) {
+      if (this.step <= 3) {
         this.renderer.removeClass(this.el, 'align__center');
         this.renderer.removeClass(this.mainEl, 'max-height');
       }
     }
   }
   onSubmit() {
-
     // console.log(this.aeForm.value);
 
     // let estimated_dob = this.aeForm.value.patientDetails?.estimated_dob;
@@ -208,13 +214,13 @@ export class NewAEFormComponent implements OnInit {
 
     // let patient_dob = this.aeForm.value.patientDetails?.patient_dob;
     // this.surveyJson.patient.patientDateOfBirth = new DatePipe('en').transform(patient_dob, 'd-MM-yyyy') || '' || '';
-    
+
     // this.surveyJson.patient.patientInitials = this.aeForm.value.patientDetails?.patient_initials || '';
 
     // this.surveyJson.product.medicationTakenByPatient = this.aeForm.value.drugs || [];
     // let j=0;
     // this.aeForm.value.medicationArray?.forEach((regimenItem: any, i) => {
-      
+
     //   const NewRegimen = {
     //     drugName:regimenItem.drugName,
     //     dose: regimenItem.dosage,
@@ -224,10 +230,9 @@ export class NewAEFormComponent implements OnInit {
     //     endDate: new DatePipe('en').transform(regimenItem.stopMedicationDate, 'd-MM-yyyy') || '',
     //     indication: regimenItem.indication
     //   };
-      
+
     //   this.surveyJson.product.regimen.push(NewRegimen);
-         
-      
+
     // });
 
     // if(this.surveyJson.product.regimen.length>1)
@@ -249,7 +254,6 @@ export class NewAEFormComponent implements OnInit {
     // this.surveyJson.complications.newBornSufferedCongInfo = this.aeForm.value.complications?.newBornSufferedCongInfo || '';
     // this.surveyJson.complications.riskFactorsForReportedMalformations = this.aeForm.value.complications?.riskFactorsForReportedMalformations || '';
     // this.surveyJson.complications.congMalfRelatedToMedications = this.aeForm.value.complications?.congMalfRelatedToMedications || '';
-  
 
     this.onClickNext();
     // let jsonObj = JSON.stringify(this.surveyJson, (key, value) => (value === '') ? null : value);
@@ -261,7 +265,7 @@ export class NewAEFormComponent implements OnInit {
     // const headers = new HttpHeaders({
     //   'Content-Type': 'application/json',
     // });
-    
+
     // AuthInterceptor.accessToken = token; // ADDED THROUGH THE INTERCEPTOR
     //this.http.post('http://172.168.1.82:8080/hilitloginservice/auth/capeicaseintake/capeicaseintakeservice/caseIntakeService/ucbFormSubmit',  this.surveyJson, {headers})
     // this.http.post('http://172.168.1.82:8080/hilitloginservice/auth/capeicaseintake/capeicaseintakeservice/caseIntakeService/ucbFormSubmit',  jsonObj, {headers})
@@ -273,22 +277,21 @@ export class NewAEFormComponent implements OnInit {
     //     //console.log(this.refno);
     //     this.saveLocal(jsonObj);
     //     // store to local storage
-        
+
     //   }
     // });
   }
 
-  saveLocal(jsonObj:any){
+  saveLocal(jsonObj: any) {
     console.log('saving local');
-    let refArray:any = [];
+    let refArray: any = [];
     const refArrayString = localStorage.getItem('refs');
 
-    if(refArrayString){
+    if (refArrayString) {
       refArray = JSON.parse(refArrayString);
-    } 
-    refArray.push({[this.refno]: jsonObj})
+    }
+    refArray.push({ [this.refno]: jsonObj });
     localStorage.setItem('refs', JSON.stringify(refArray));
   }
   // alignCenter(currentStep: any) {}
 }
-

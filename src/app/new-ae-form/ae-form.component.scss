@@ -269,7 +269,7 @@
         }
       }
     }
-    
+
     .textarea {
       @include default_input-style;
       width: 100%;
@@ -289,10 +289,23 @@
       // background-color: red;
       display: flex;
       justify-content: space-between;
-      &:not(:last-child) {
-        margin-bottom: 30px;
-      }
+      margin-top: 20px;
+      // &:not(:last-child) {
+      //   margin-bottom: 30px;
+      // }
       .input-group {
+        .form-control {
+          background-color: red;
+          width: 414px;
+
+          .input--sm {
+            width: 50%;
+            // display: inline-block;
+          }
+          .input {
+            width: 100%;
+          }
+        }
         label {
           line-height: 24px;
           color: #fff;
@@ -324,14 +337,14 @@
     margin-bottom: 21px;
   }
 
-  .form-control-full{
+  .form-control-full {
     input[type="text"],
     select {
       @include default_input-style;
       width: 100%;
       height: 40px;
     }
-    margin-top:25px;
+    margin-top: 25px;
     label {
       margin-bottom: 3px;
       display: inline-block;
@@ -348,9 +361,9 @@
     &:not(:last-child) {
       margin-top: 25px;
     }
-    
+
     .form-control {
-      .input-group-wrapper-full{
+      .input-group-wrapper-full {
         width: 417px;
         display: flex;
         & > * {
@@ -509,7 +522,6 @@
         }
       }
     }
-    
   }
   .textarea__group {
     width: 100%;
@@ -541,7 +553,7 @@
   overflow: hidden;
 }
 
-.checkbox__group2{
+.checkbox__group2 {
   .form-control {
     width: 50%;
     label {
@@ -562,7 +574,7 @@
       transform: translateY(-1px);
     }
   }
-  .checkbox__group-row2{
+  .checkbox__group-row2 {
     width: 100%;
     display: flex;
     margin-bottom: 20px;
