@@ -271,28 +271,28 @@ export class FollowUpFormComponent implements OnInit, DoCheck, AfterViewChecked 
   }
   cbCheckValue(cbName:string){
     
-    if(this.lastRecObj.product.medicationTakenByPatient.indexOf(cbName) > -1) return true;
+    if(this.lastRecObj.product.medicationTakenByPatient?.indexOf(cbName) > -1) return true;
     else return null;
   }
 
   rbCheckValue(rbValue:string){
     // console.log(rbValue);
     // console.log('checking',this.lastRecObj.complications.previousPregnancyComplications.indexOf(rbValue));
-    if(this.lastRecObj.complications.previousPregnancyComplications.indexOf(rbValue) > -1) {
+    if(this.lastRecObj.complications.previousPregnancyComplications?.indexOf(rbValue) > -1) {
       this.multiStep.controls.complications.controls.previousPregnancyComplications.setValue(rbValue);
       return true;
     }
     else return null;
   }
   rbPregnancyOutcomeCheckValue(rbValue:string){
-    if(this.lastRecObj.complications.pregnancyOutcome.indexOf(rbValue) > -1) {
+    if(this.lastRecObj.complications.pregnancyOutcome?.indexOf(rbValue) > -1) {
       this.multiStep.controls.complications.controls.pregnancyOutcome.setValue(rbValue);
       return true;}
     else return null;
   }
 
   rbnbGenderCheckValue(rbValue:string){
-    if(this.lastRecObj.complications.newBornGender.indexOf(rbValue) > -1) {
+    if(this.lastRecObj.complications.newBornGender?.indexOf(rbValue) > -1) {
       this.multiStep.controls.complications.controls.newBornGender.setValue(rbValue);
       return true;}
     else return null;
