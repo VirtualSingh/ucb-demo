@@ -11,6 +11,6 @@ export class GenerateReportComponent implements OnInit {
 
   ngOnInit(): void {}
   onClick() {
-    this.router.navigate(['/new-follow-up']);
+    this.router.navigate(['/new-follow-up'], {queryParams:{action: 'view'}});
   }
 }

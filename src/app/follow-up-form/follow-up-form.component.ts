@@ -2,10 +2,10 @@
 import { Component, ElementRef, OnInit, Renderer2 } from '@angular/core';
 import { Form, FormArray, FormControl, FormGroup } from '@angular/forms';
 import { HttpClient,HttpHeaders } from '@angular/common/http';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AuthInterceptor } from '../interceptors/auth.interceptor';
 import { DatePipe } from '@angular/common';
-import * as CryptoJS from 'crypto-js';
+// import * as CryptoJS from 'crypto-js';
 
 
 // interface Frequency {
@@ -25,9 +25,11 @@ export class FollowUpFormComponent implements OnInit {
   activeIndex = 1;
   // =======
   public refno = '. . .';
+  action = '';
+  refArray:any = [];
 
-  public base64Key = "aGlsaXRsZGFwc2NydGtleQ==";
-  key = CryptoJS.enc.Base64.parse(this.base64Key);
+  // public base64Key = "aGlsaXRsZGFwc2NydGtleQ==";
+  // key = CryptoJS.enc.Base64.parse(this.base64Key);
 
   public surveyJson = {
     patient: {
@@ -169,7 +171,8 @@ export class FollowUpFormComponent implements OnInit {
     private http: HttpClient,
     private router: Router,
     private elRef: ElementRef,
-    private renderer: Renderer2
+    private renderer: Renderer2,
+    private route:ActivatedRoute
   ) {
     // this.frequencies = [
     //   { name: 'Regular' },
@@ -187,27 +190,47 @@ export class FollowUpFormComponent implements OnInit {
     // console.log(this.multiStep);
     // this.activeIndex = this.step;
 
+
+
     /// 1. read the local data
-    /// 2. bind the data to the reactive form element references
-
-    let refArray:any = [];
-    const refArrayString = localStorage.getItem('refs');
-
-    if(refArrayString){
-      refArray = JSON.parse(refArrayString);
-      this.populateForm(refArray);
-    } 
     
+    // this.route.queryParams.subscribe(params => {
+    //   // console.log(params['form']);
+
+    //   this.action = params['action'];
+    //   if(this.action === 'view' || this.action === 'edit'){
+
+    //     const refArrayString = localStorage.getItem('refs');
+    //     if(refArrayString){
+    //       this.refArray = JSON.parse(refArrayString);
+    //       // let keyArray = Object.keys(this.refArray);
+    //       // let lastRecObject = this.refArray[this.refArray.length-1];
+    //       // let lastRec = Object.values(lastRecObject);
+    //       // let valueJson = JSON.parse(lastRec.pop());
+    //       /// 2. bind the data to the reactive form element references
+    //      // this.populateForm();
+    //     } 
+
+    //   }
+    // });
   }
 
-  populateForm(refArray:any){
+  populateForm(){
+    //console.log('checking the local storage');
+    //console.log(this.refArray[this.refArray.length-1]);
+    for( let index in this.refArray ){   
+      var value = this.refArray[index]; 
+      //console.log(value);
+    }
 
+    // if(this.refArray)
+    // let lastRec = this.refArray.pop();
     // refArray[0].json
-
     // this.multiStep.controls.patientDetails.controls.estimated_dob = 
     // this.multiStep.controls.patientDetails.controls.menstrual_date = 
     // this.multiStep.controls.patientDetails.controls.patient_dob = 
     // this.multiStep.controls.patientDetails.controls.patient_initials = 
+
   }
 
 
@@ -299,9 +322,9 @@ export class FollowUpFormComponent implements OnInit {
     let jsonObj = JSON.stringify(this.surveyJson, (key, value) => (value === '') ? null : value);
     //console.log(JSON.stringify(this.surveyJson));
     console.log(jsonObj);
-    this.saveLocal(jsonObj);
+    //this.saveLocal(jsonObj);
     // send the data to the server
-    const token = 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJicmlsbHkiLCJpYXQiOjE2NjE1MTIxNjN9.MLXWNm_blGPva7nOHfIZQOjwN--noR44korowr6bmWpX1XMGte-Wx-whgtYmYDHv32U9Ogn4woXN3WFal9zafQ';
+    const token = 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJicmlsbHkiLCJpYXQiOjE2NjE3ODExMDN9.4VBAZfc64YP1K211n9uSwyfISe3cOQ-A0RDJrnTHBG1LXceENPGaU77xPkoCUdYuMr3KnH85fQx2nB6TE2wQbQ';
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
     });
@@ -312,11 +335,11 @@ export class FollowUpFormComponent implements OnInit {
     .subscribe((res:any)=>{
       console.log('response',res);
 
-      let userObj = this.decryptResponse(res);
+      //let userObj = this.decryptResponse(res);
 
-      let accessToken   = userObj.accessToken;
-      console.log('Decryped Access Token');
-      console.log(accessToken);
+      // let accessToken   = userObj.accessToken;
+      // console.log('Decryped Access Token');
+      // console.log(accessToken);
 
       if(res.message === 'Success'){
         let resultTxt = res.result;
@@ -324,33 +347,32 @@ export class FollowUpFormComponent implements OnInit {
         console.log(this.refno);
         //this.saveLocal(jsonObj);
         // store to local storage
-        
       }
     });
   }
 
 
-  decryptResponse(response: any){
+  // decryptResponse(response: any){
 
-    const crypted  = CryptoJS.enc.Base64.parse(response);
-    let decryptedData = CryptoJS.AES.decrypt(
-      crypted.toString(CryptoJS.enc.Hex),
-      this.key,
-      {
-        mode: CryptoJS.mode.ECB,
-        padding: CryptoJS.pad.Pkcs7
-      }
-    );
+  //   const crypted  = CryptoJS.enc.Base64.parse(response);
+  //   let decryptedData = CryptoJS.AES.decrypt(
+  //     crypted.toString(CryptoJS.enc.Hex),
+  //     this.key,
+  //     {
+  //       mode: CryptoJS.mode.ECB,
+  //       padding: CryptoJS.pad.Pkcs7
+  //     }
+  //   );
 
-    const decryptedText = decryptedData.toString(CryptoJS.enc.Utf8);
-    const str = (decryptedText.substring(decryptedText.lastIndexOf("::")+2,decryptedText.length));
-    const saltLength = parseInt(str)
-    const saltTrailingCount = 2 + str.length;
-    const totalSaltLength = saltLength + saltTrailingCount;
-    const decrypted = decryptedText.substring(0,decryptedText.length - totalSaltLength);
-    const value= JSON.parse(decrypted);
-    return value;
-  }
+  //   const decryptedText = decryptedData.toString(CryptoJS.enc.Utf8);
+  //   const str = (decryptedText.substring(decryptedText.lastIndexOf("::")+2,decryptedText.length));
+  //   const saltLength = parseInt(str)
+  //   const saltTrailingCount = 2 + str.length;
+  //   const totalSaltLength = saltLength + saltTrailingCount;
+  //   const decrypted = decryptedText.substring(0,decryptedText.length - totalSaltLength);
+  //   const value= JSON.parse(decrypted);
+  //   return value;
+  // }
 
 
   saveLocal(jsonObj:any){
