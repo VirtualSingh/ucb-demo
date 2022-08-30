@@ -1,3 +1,5 @@
+// Pregnancy Followup form component
+
 // import { style } from '@angular/animations';
 import { Component, ElementRef, OnInit, Renderer2 } from '@angular/core';
 import { Form, FormArray, FormControl, FormGroup } from '@angular/forms';
@@ -5,6 +7,7 @@ import { HttpClient,HttpHeaders } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthInterceptor } from '../interceptors/auth.interceptor';
 import { DatePipe } from '@angular/common';
+import { ChangeDetectorRef, DoCheck } from '@angular/core';
 // import * as CryptoJS from 'crypto-js';
 
 
@@ -12,12 +15,59 @@ import { DatePipe } from '@angular/common';
 //   name: string;
 // }
 
+interface Regimen {
+  drugName: string | null,
+  indication: string | null,
+  dose: string | null,
+  units: string | null,
+  frequency: string | null,
+  startDate: string | null,
+  endDate: string | null,
+};
+
+interface Complications{
+  previousPregnancyComplications: [string],
+  pregnancyOutcomeDate: string | null,
+  pregnancyOutcome: [string],
+  height: number | null,
+  heightUnits: string | null,
+  weight: number | null,
+  weightUnits: string | null,
+  newBornGender: string,
+  apgarScore: string | null,
+  newBornSufferedCongInfo: string | null,
+  riskFactorsForReportedMalformations: string | null,
+  congMalfRelatedToMedications: string | null,
+};
+
+
+interface Survey {
+  patient: {
+    patientInitials: string | null,
+    patientDateOfBirth: string | null,
+    estimatedBirthDate: string | null,
+    firstDayLMP: string | null,
+  }
+  product: 
+    {
+      medicationTakenByPatient: Array<string | null>,
+      regimen: Array<Regimen>
+    },
+  medicalHistory: {
+    patientMedicalHistory: string | null,
+  },
+  complications: Complications
+};
+
+// this.surveyJson.product.medicationTakenByPatient
+
+
 @Component({
   selector: 'app-follow-up-form',
   templateUrl: './follow-up-form.component.html',
   styleUrls: ['./follow-up-form.component.scss'],
 })
-export class FollowUpFormComponent implements OnInit {
+export class FollowUpFormComponent implements OnInit, DoCheck {
   // reactiveForm: FormGroup;
   // frequencies: Frequency[];
   // selectedFrequency: Frequency;
@@ -27,48 +77,50 @@ export class FollowUpFormComponent implements OnInit {
   public refno = '. . .';
   action = '';
   refArray:any = [];
-
+  lastRecObj:Survey;
   // public base64Key = "aGlsaXRsZGFwc2NydGtleQ==";
   // key = CryptoJS.enc.Base64.parse(this.base64Key);
 
-  public surveyJson = {
-    patient: {
-      patientInitials: '',
-      patientDateOfBirth: '',
-      estimatedBirthDate: '',
-      firstDayLMP: '',
-    },
-    product: 
-      {
-        medicationTakenByPatient: [''],
-        regimen: [{
-          drugName: '',
-          indication: '',
-          dose: '',
-          units: '',
-          frequency: '',
-          startDate: '',
-          endDate: '',
-        }]
-      },
-    medicalHistory: {
-      patientMedicalHistory: '',
-    },
-    complications: {
-      previousPregnancyComplications: [''],
-      pregnancyOutcomeDate: '',
-      pregnancyOutcome: [''],
-      height: 0,
-      heightUnits: '',
-      weight: 80,
-      weightUnits: '',
-      newBornGender: '',
-      apgarScore: '',
-      newBornSufferedCongInfo: '',
-      riskFactorsForReportedMalformations: '',
-      congMalfRelatedToMedications: '',
-    },
-  };
+
+
+  public surveyJson : Survey;
+  //   patient: {
+  //     patientInitials: '',
+  //     patientDateOfBirth: '',
+  //     estimatedBirthDate: '',
+  //     firstDayLMP: '',
+  //   },
+  //   product: 
+  //     {
+  //       medicationTakenByPatient: [''],
+  //       regimen: [{
+  //         drugName: '',
+  //         indication: '',
+  //         dose: '',
+  //         units: '',
+  //         frequency: '',
+  //         startDate: '',
+  //         endDate: '',
+  //       }]
+  //     },
+  //   medicalHistory: {
+  //     patientMedicalHistory: '',
+  //   },
+  //   complications: {
+  //     previousPregnancyComplications: [''],
+  //     pregnancyOutcomeDate: '',
+  //     pregnancyOutcome: [''],
+  //     height: 0,
+  //     heightUnits: '',
+  //     weight: 80,
+  //     weightUnits: '',
+  //     newBornGender: '',
+  //     apgarScore: '',
+  //     newBornSufferedCongInfo: '',
+  //     riskFactorsForReportedMalformations: '',
+  //     congMalfRelatedToMedications: '',
+  //   },
+  // };
 
   // >>>>>>> 4784c0793ea257eed09d681e47d88d70b5dd0bb8
   mainEl: any;
@@ -172,7 +224,8 @@ export class FollowUpFormComponent implements OnInit {
     private router: Router,
     private elRef: ElementRef,
     private renderer: Renderer2,
-    private route:ActivatedRoute
+    private route:ActivatedRoute,
+    private cd: ChangeDetectorRef
   ) {
     // this.frequencies = [
     //   { name: 'Regular' },
@@ -190,49 +243,81 @@ export class FollowUpFormComponent implements OnInit {
     // console.log(this.multiStep);
     // this.activeIndex = this.step;
 
-
-
     /// 1. read the local data
     
-    // this.route.queryParams.subscribe(params => {
-    //   // console.log(params['form']);
+    this.route.queryParams.subscribe(params => {
+      // console.log(params['form']);
 
-    //   this.action = params['action'];
-    //   if(this.action === 'view' || this.action === 'edit'){
+      this.action = params['action'];
+      if(this.action === 'view' || this.action === 'edit'){
 
-    //     const refArrayString = localStorage.getItem('refs');
-    //     if(refArrayString){
-    //       this.refArray = JSON.parse(refArrayString);
-    //       // let keyArray = Object.keys(this.refArray);
-    //       // let lastRecObject = this.refArray[this.refArray.length-1];
-    //       // let lastRec = Object.values(lastRecObject);
-    //       // let valueJson = JSON.parse(lastRec.pop());
-    //       /// 2. bind the data to the reactive form element references
-    //      // this.populateForm();
-    //     } 
+        const refArrayString = localStorage.getItem('refs');
+        if(refArrayString){
+          this.refArray = JSON.parse(refArrayString);
+          let keyArray = Object.keys(this.refArray);
+          let lastRecObject = this.refArray[this.refArray.length-1];
+          console.log('lastRecObject');
+          console.log(lastRecObject);
+          let lastRecString = Object.values(lastRecObject);
+          console.log('lastRec');
+          this.lastRecObj = JSON.parse(lastRecString.toString());
+          console.log(this.lastRecObj);
+          this.populateForm();
+        } 
 
-    //   }
-    // });
+      }
+    });
+  }
+  cbCheckValue(cbName:string){
+    console.log('checking',this.lastRecObj.product.medicationTakenByPatient.indexOf('cbName'));
+    if(this.lastRecObj.product.medicationTakenByPatient.indexOf(cbName) > -1) return true;
+    else return null;
+  }
+
+  rbCheckValue(rbValue:string){
+    if(this.lastRecObj.complications.previousPregnancyComplications.indexOf(rbValue) > -1) return true;
+    else return null;
+  }
+  rbPregnancyOutcomeCheckValue(rbValue:string){
+    if(this.lastRecObj.complications.pregnancyOutcome.indexOf(rbValue) > -1) return true;
+    else return null;
+  }
+
+  rbnbGenderCheckValue(rbValue:string){
+    if(this.lastRecObj.complications.newBornGender.indexOf(rbValue) > -1) return true;
+    else return null;
   }
 
   populateForm(){
-    //console.log('checking the local storage');
-    //console.log(this.refArray[this.refArray.length-1]);
-    for( let index in this.refArray ){   
-      var value = this.refArray[index]; 
-      //console.log(value);
-    }
+    this.multiStep.controls.patientDetails.controls.estimated_dob.setValue(new DatePipe('en').transform(this.lastRecObj.patient.estimatedBirthDate,'yyyy-MM-dd'));
+    this.multiStep.controls.patientDetails.controls.menstrual_date.setValue(new DatePipe('en').transform(this.lastRecObj.patient.firstDayLMP,'yyyy-MM-dd'));
+    this.multiStep.controls.patientDetails.controls.patient_dob.setValue(new DatePipe('en').transform(this.lastRecObj.patient.patientDateOfBirth,'yyyy-MM-dd'));
+    this.multiStep.controls.patientDetails.controls.patient_initials.setValue(this.lastRecObj.patient.patientInitials);
+    this.lastRecObj.product.regimen.forEach((regimen: Regimen, i) => {
+      //this.multiStep.value.medicationArray?.push(regimen);
+      const medArray: FormArray = this.multiStep.get(
+        'medicationArray'
+      ) as FormArray;
+      const medication = new FormGroup({
+        drugName: new FormControl(regimen.drugName),
+        dosage: new FormControl(regimen.dose),
+        dosageUnit: new FormControl(regimen.units),
+        frequency: new FormControl(regimen.frequency),
+        startMedicationDate: new FormControl(new DatePipe('en').transform(regimen.startDate,'yyyy-MM-dd')),
+        stopMedicationDate: new FormControl(new DatePipe('en').transform(regimen.endDate,'yyyy-MM-dd')),
+        indication: new FormControl(regimen.indication)
+      });
+      medArray.push(medication);
+      // this.cd.detectChanges();
 
-    // if(this.refArray)
-    // let lastRec = this.refArray.pop();
-    // refArray[0].json
-    // this.multiStep.controls.patientDetails.controls.estimated_dob = 
-    // this.multiStep.controls.patientDetails.controls.menstrual_date = 
-    // this.multiStep.controls.patientDetails.controls.patient_dob = 
-    // this.multiStep.controls.patientDetails.controls.patient_initials = 
+
+    });
+
+    this.multiStep.controls.medicalHistory.controls.patientMedicalHistory.setValue(this.lastRecObj.medicalHistory.patientMedicalHistory);
+    this.multiStep.controls.complications.controls.pregnancyOutcomeDate.setValue(new DatePipe('en').transform(this.lastRecObj.complications.pregnancyOutcomeDate,'yyyy-MM-dd'));
+    
 
   }
-
 
   onClickNext() {
     this.activeIndex++;
@@ -291,10 +376,7 @@ export class FollowUpFormComponent implements OnInit {
         endDate: new DatePipe('en').transform(regimenItem.stopMedicationDate, 'd-MM-yyyy') || '',
         indication: regimenItem.indication
       };
-      
       this.surveyJson.product.regimen.push(NewRegimen);
-         
-      
     });
 
     if(this.surveyJson.product.regimen.length>1)
@@ -385,6 +467,10 @@ export class FollowUpFormComponent implements OnInit {
     } 
     refArray.push({[this.refno]: jsonObj})
     localStorage.setItem('refs', JSON.stringify(refArray));
+  }
+
+  ngDoCheck(){
+    
   }
 
   // alignCenter(currentStep: any) {}

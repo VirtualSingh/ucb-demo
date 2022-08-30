@@ -270,7 +270,7 @@ export class NewPregnancyFormComponent implements OnInit {
     let jsonObj = JSON.stringify(this.surveyJson, (key, value) => (value === '') ? null : value);
     //console.log(JSON.stringify(this.surveyJson));
     console.log(jsonObj);
-    //this.saveLocal(jsonObj);
+    this.saveLocal(jsonObj);
     // send the data to the server
     const token = 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJicmlsbHkiLCJpYXQiOjE2NjE3ODExMDN9.4VBAZfc64YP1K211n9uSwyfISe3cOQ-A0RDJrnTHBG1LXceENPGaU77xPkoCUdYuMr3KnH85fQx2nB6TE2wQbQ';
     const headers = new HttpHeaders({
