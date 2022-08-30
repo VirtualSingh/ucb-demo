@@ -17,13 +17,14 @@
   </div>
   <div class="main">
     <div class="card">
-      <h3 class="card__title">Patient History</h3>
-      <div class="input-group mt-md">
+      <div class="input-group">
         <label for="diagnosis" class="text">Diagnosis</label>
         <input
           type="text"
           id="diagnosis"
-          placeholder="Diagnosis" value="Drug Induced Liver Injury"
+          placeholder="Diagnosis"
+          disabled
+          value="Drug Induced Liver Injury"
           class="text-input text-input--sm mt-xs"
         />
       </div>
@@ -32,11 +33,14 @@
         <input
           type="text"
           id="medication"
-          placeholder="Medication" value="Levetiracetam"
+          placeholder="Medication"
+          disabled
+          value="Levetiracetam"
           class="text-input text-input--sm mt-xs"
         />
       </div>
-      <div class="input-group mt-md"></div>
+      <h3 class="card__title mt-md">Patient History</h3>
+      <!-- <div class="input-group mt-md"></div> -->
       <div class="input-group mt-md">
         <p class="text">
           Please provide any relevant medical history, do not use the patient’s
@@ -203,7 +207,7 @@
         </div>
       </div>
       <div class="input-group input-group--submit mt-lg">
-        <button class="btn__secondary">Submit</button>
+        <button class="btn__secondary" (click)="onClickSubmit()">Submit</button>
       </div>
     </div>
   </div>

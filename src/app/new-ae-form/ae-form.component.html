@@ -6,7 +6,7 @@
   </div>
   <div class="main">
     <!-- <div class="component-wrapper"> -->
-    <form class="form" [formGroup]="aeForm"  (ngSubmit)="onSubmit()">
+    <form class="form" [formGroup]="aeForm" (ngSubmit)="onSubmit()">
       <div class="card" *ngIf="step === 1" name="patientDetails">
         <h3 class="title">Patient Details</h3>
         <div class="field-set">
@@ -48,7 +48,9 @@
         </div>
         <div class="field-set">
           <div class="radio__group radio__group--sm">
-            <p class="radio__group-title">Do you wish to be contacted for further information?</p>
+            <p class="radio__group-title">
+              Do you wish to be contacted for further information?
+            </p>
             <div class="radio__group-input">
               <input type="radio" name="contactable" value="Yes" />
               <label>Yes</label>
@@ -59,9 +61,7 @@
             </div>
           </div>
         </div>
-        <p class="text sub-title">
-          Patient Contact Details
-        </p>
+        <p class="text sub-title">Patient Contact Details</p>
         <div class="field-set">
           <div class="input-group">
             <label for="name">Address</label>
@@ -122,7 +122,6 @@
             />
           </div>
         </div>
-
       </div>
 
       <div class="card" *ngIf="step === 2">
@@ -138,71 +137,81 @@
                 [formGroupName]="i"
               >
                 <p-tabPanel header="Medication {{ i + 1 }}">
-                  
-                    <div class="form-control-full">
-                      <label for="drugName">What is the medication you are taking?</label>
-                      <input
-                        type="text"
-                        id="drugName"
-                        form_ControlName="drugName"
-                        placeholder="Name of the Medication"
-                      />
-                    </div>
-                    
-                    <div class="form-control-full">
-                      <label for="reasonForDrug">Why is the medication being taken?</label>
-                      <input
-                        type="text"
-                        id="reasonForDrug"
-                        form_ControlName="reasonForDrug"
-                        placeholder="Reason"
-                      />
-                    </div>
+                  <div class="form-control-full">
+                    <label for="drugName"
+                      >What is the medication you are taking?</label
+                    >
+                    <input
+                      type="text"
+                      id="drugName"
+                      form_ControlName="drugName"
+                      placeholder="Name of the Medication"
+                    />
+                  </div>
 
-                    <div class="form-control-full">
-                      <label for="medicationChannel">How the medication being taken ?</label>
-                      <input
-                        type="text"
-                        id="medicationChannel"
-                        form_ControlName="medicationChannel"
-                        placeholder="How the medication being taken?"
-                      />
-                    </div>
+                  <div class="form-control-full">
+                    <label for="reasonForDrug"
+                      >Why is the medication being taken?</label
+                    >
+                    <input
+                      type="text"
+                      id="reasonForDrug"
+                      form_ControlName="reasonForDrug"
+                      placeholder="Reason"
+                    />
+                  </div>
 
-                    
-                    <div class="field-set">
+                  <div class="form-control-full">
+                    <label for="medicationChannel"
+                      >How the medication being taken ?</label
+                    >
+                    <input
+                      type="text"
+                      id="medicationChannel"
+                      form_ControlName="medicationChannel"
+                      placeholder="How the medication being taken?"
+                    />
+                  </div>
 
-                      <div class="input-group">
-
-                        <div class="form-control">
-                            <label for="dosage">Dosage</label>
-                            <input 
-                              type="text"
-                              class="input--sm"
-                              id="dosage"
-                              placeholder="Dose"
-                              form_ControlName="dosage"
-                            />
-                            <select id="dosageUnit" form_ControlName="dosageUnit">
-                              <option value="" disabled selected>Unit</option>
-                              <option value="milligram">ml</option>
-                              <option value="microgram">mg</option>
-                              <option value="nanogram">mmHG</option>
-                            </select>
-                        </div>
-                        <div class="form-control">
-                            <label for="frequency">Frequency</label>
-                            <select class="input" id="frequency" form_ControlName="frequency">
-                              <option value="" disabled selected>Unit</option>
-                              <option value="daily">Daily</option>
-                              <option value="weekly">Weekly</option>
-                              <option value="monthly">Monthly</option>
-                            </select>
+                  <div class="field-set">
+                    <div class="input-group">
+                      <div class="form-control">
+                        <label for="dosage">Dosage</label>
+                        <div style="display: flex">
+                          <input
+                            type="text"
+                            class="input--sm"
+                            id="dosage"
+                            placeholder="Dose"
+                            form_ControlName="dosage"
+                          />
+                          <select
+                            id="dosageUnit"
+                            form_ControlName="dosageUnit"
+                            class="input--sm"
+                          >
+                            <option value="" disabled selected>Unit</option>
+                            <option value="milligram">ml</option>
+                            <option value="microgram">mg</option>
+                            <option value="nanogram">mmHG</option>
+                          </select>
                         </div>
                       </div>
-                      
+                      <div class="form-control">
+                        <label for="frequency">Frequency</label>
+                        <select
+                          class="input"
+                          id="frequency"
+                          form_ControlName="frequency"
+                        >
+                          <option value="" disabled selected>Unit</option>
+                          <option value="daily">Daily</option>
+                          <option value="weekly">Weekly</option>
+                          <option value="monthly">Monthly</option>
+                        </select>
+                      </div>
+                    </div>
                   </div>
-                    
 
                   <p style="margin-bottom: 2px; margin-top: 20px">
                     When did the patient start/stop the medication?
@@ -225,7 +234,6 @@
                       />
                     </div>
                   </div>
-                  
                 </p-tabPanel>
               </ng-container>
             </ng-container>
@@ -255,109 +263,183 @@
           </div>
         </div>
 
-        <p class="text">
-          Did the side effect lead to any?
-        </p>
+        <p class="text">Did the side effect lead to any?</p>
         <div class="checkbox__group2">
           <div class="checkbox__group-row2">
             <div class="form-control">
-              <input type="checkbox" id="death" form_ControlName="side_effects" value="Death" />
+              <input
+                type="checkbox"
+                id="death"
+                form_ControlName="side_effects"
+                value="Death"
+              />
               <label for="death">Death</label>
             </div>
             <div class="form-control">
-              <input type="checkbox" id="hospitalization" form_ControlName="side_effects" value="Hospitalization" />
+              <input
+                type="checkbox"
+                id="hospitalization"
+                form_ControlName="side_effects"
+                value="Hospitalization"
+              />
               <label for="hospitalization">Hospitalization</label>
             </div>
           </div>
           <div class="checkbox__group-row2">
             <div class="form-control">
-              <input type="checkbox" id="life-threatening" form_ControlName="side_effects" value="Life Threatening" />
+              <input
+                type="checkbox"
+                id="life-threatening"
+                form_ControlName="side_effects"
+                value="Life Threatening"
+              />
               <label for="life-threatening">Life Threatening</label>
             </div>
             <div class="form-control">
-              <input type="checkbox" id="disability" form_ControlName="side_effects" value="Disability" />
+              <input
+                type="checkbox"
+                id="disability"
+                form_ControlName="side_effects"
+                value="Disability"
+              />
               <label for="disability">Disability</label>
             </div>
           </div>
           <div class="checkbox__group-row2">
             <div class="form-control">
-              <input type="checkbox" id="congenital-anomaly" form_ControlName="side_effects" value="Congenital anomaly" />
+              <input
+                type="checkbox"
+                id="congenital-anomaly"
+                form_ControlName="side_effects"
+                value="Congenital anomaly"
+              />
               <label for="congenital-anomaly">Congenital anomaly</label>
             </div>
             <div class="form-control">
-              <input type="checkbox" id="ime" form_ControlName="side_effects" value="Important medical Event" />
-              <label for="ime"
-                >Important medical Event</label
-              >
+              <input
+                type="checkbox"
+                id="ime"
+                form_ControlName="side_effects"
+                value="Important medical Event"
+              />
+              <label for="ime">Important medical Event</label>
             </div>
           </div>
         </div>
 
-
         <p class="section__title">
-          What was the action taken when the side effect was noticed? 
+          What was the action taken when the side effect was noticed?
         </p>
         <div class="radio__group">
           <div class="radio__group-row">
             <div class="form-control">
-              <input type="radio" id="discontinued" name="actionTaken" value="Discontinued" />
+              <input
+                type="radio"
+                id="discontinued"
+                name="actionTaken"
+                value="Discontinued"
+              />
               <label for="discontinued">Discontinued</label>
             </div>
             <div class="form-control">
-              <input type="radio" id="unknown" name="actionTaken" value="Unknown" />
+              <input
+                type="radio"
+                id="unknown"
+                name="actionTaken"
+                value="Unknown"
+              />
               <label for="unknown">Unknown</label>
             </div>
           </div>
           <div class="radio__group-row">
             <div class="form-control">
-              <input type="radio" id="dose-reduced" name="actionTaken" value="Dose Reduced" />
+              <input
+                type="radio"
+                id="dose-reduced"
+                name="actionTaken"
+                value="Dose Reduced"
+              />
               <label for="dose-reduced">Dose Reduced</label>
             </div>
             <div class="form-control">
-              <input type="radio" id="not-applicable" name="actionTaken" value="Not applicable" />
+              <input
+                type="radio"
+                id="not-applicable"
+                name="actionTaken"
+                value="Not applicable"
+              />
               <label for="not-applicable">Not applicable</label>
             </div>
           </div>
           <div class="radio__group-row">
             <div class="form-control">
-              <input type="radio" id="dose-increased" name="actionTaken" value="Dose increased" />
+              <input
+                type="radio"
+                id="dose-increased"
+                name="actionTaken"
+                value="Dose increased"
+              />
               <label for="dose-increased">Dose increased</label>
             </div>
             <div class="form-control">
-              <input type="radio" id="no-change" name="actionTaken" value="Dose not changed" />
+              <input
+                type="radio"
+                id="no-change"
+                name="actionTaken"
+                value="Dose not changed"
+              />
               <label for="no-change">Dose not changed</label>
             </div>
           </div>
         </div>
 
         <p class="section__title">
-          What was the outcome of the side effect condition? 
+          What was the outcome of the side effect condition?
         </p>
         <div class="radio__group">
           <div class="radio__group-row">
             <div class="form-control">
-              <input type="radio" id="recovered" name="actionTaken" value="Recovered" />
+              <input
+                type="radio"
+                id="recovered"
+                name="actionTaken"
+                value="Recovered"
+              />
               <label for="recovered">Recovered</label>
             </div>
             <div class="form-control">
-              <input type="radio" id="not-recovered" name="actionTaken" value="Not Recovered" />
+              <input
+                type="radio"
+                id="not-recovered"
+                name="actionTaken"
+                value="Not Recovered"
+              />
               <label for="not-recovered">Not Recovered</label>
             </div>
           </div>
           <div class="radio__group-row">
             <div class="form-control">
-              <input type="radio" id="recovering" name="actionTaken" value="Recovering" />
+              <input
+                type="radio"
+                id="recovering"
+                name="actionTaken"
+                value="Recovering"
+              />
               <label for="recovering">Recovering</label>
             </div>
             <div class="form-control">
-              <input type="radio" id="unknown" name="actionTaken" value="Unknown" />
+              <input
+                type="radio"
+                id="unknown"
+                name="actionTaken"
+                value="Unknown"
+              />
               <label for="unknown">Unknown</label>
             </div>
           </div>
         </div>
-
       </div>
-     
+
       <div class="card card__confirmation" *ngIf="step === 4">
         <div class="content__wrapper">
           <h4>Thank You!</h4>
@@ -370,7 +452,7 @@
           </p>
           <p class="para">The reference number is</p>
           <h2>
-            {{this.refno}}
+            {{ this.refno }}
             <i
               class="pi pi-copy"
               style="font-size: 1.5rem; cursor: pointer; font-weight: 300"
@@ -394,26 +476,46 @@
       </div>
     </form>
     <!-- </div> -->
-    <app-ae-form-steps *ngIf="step <= 3" [count]="activeIndex"></app-ae-form-steps>
+    <app-ae-form-steps
+      *ngIf="step <= 3"
+      [count]="activeIndex"
+    ></app-ae-form-steps>
   </div>
 
   <div class="footer" *ngIf="step <= 3">
-
-    <a *ngIf="step === 1" id="prevbtn"  class="btn__tertiary btn__tertiary--text" (click)="onClickPrev()"
+    <a
+      *ngIf="step === 1"
+      id="prevbtn"
+      class="btn__tertiary btn__tertiary--text"
+      (click)="onClickPrev()"
       >back</a
     >
 
-    <a *ngIf="step > 1" id="prevbtn"  class="btn__tertiary btn__tertiary--active" (click)="onClickPrev()"
+    <a
+      *ngIf="step > 1"
+      id="prevbtn"
+      class="btn__tertiary btn__tertiary--active"
+      (click)="onClickPrev()"
       >back</a
     >
 
-    <button *ngIf="step < 3" id="nextbtn" class="btn__tertiary btn__tertiary--active" (click)="onClickNext()">
+    <button
+      *ngIf="step < 3"
+      id="nextbtn"
+      class="btn__tertiary btn__tertiary--active"
+      (click)="onClickNext()"
+    >
       next
     </button>
 
-    <button *ngIf="step === 3" id="submitbtn" type="submit" class="btn__tertiary btn__tertiary--active" (click)="onSubmit()">
+    <button
+      *ngIf="step === 3"
+      id="submitbtn"
+      type="submit"
+      class="btn__tertiary btn__tertiary--active"
+      (click)="onSubmit()"
+    >
       Submit
     </button>
-
   </div>
 </div>
