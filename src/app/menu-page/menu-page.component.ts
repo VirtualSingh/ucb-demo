@@ -11,12 +11,15 @@ export class MenuPageComponent implements OnInit {
 
   ngOnInit(): void {}
   onClickNavigateTo() {
-    this.router.navigate(['/whois-reporting'], {queryParams:{form: 'pregnancy'}});
+    this.router.navigate(['/whois-reporting'], {queryParams:{ form: 'pregnancy'}});
   }
   navigateToFollowUp() {
     this.router.navigate(['/follow-up']);
   }
   navigateToAE(){
     this.router.navigate(['/whois-reporting'], {queryParams: { form: 'ae'}});
+  }
+  aeFollowupForm(){
+    this.router.navigate(['/ae-followup-form']);
   }
 }
