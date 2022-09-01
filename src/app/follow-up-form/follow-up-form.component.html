@@ -8,7 +8,7 @@
       <!-- <div class="component-wrapper"> -->
       <form class="form" [formGroup]="multiStep" (ngSubmit)="onSubmit()">
         <div class="card" *ngIf="step === 1" formGroupName="patientDetails">
-          <h3 class="title">Patient Details</h3>
+          <h3 class="title">Patient Details FU</h3>
           <p class="text sub-title">
             Could you provide us with the following data from your patient?
           </p>
@@ -73,6 +73,7 @@
             <div class="form-control">
               <input
                 type="checkbox"
+                [checked]="cbCheckValue('Cimzia')"
                 id="cimzia"
                 value="Cimzia"
                 (change)="onDrugsChange($event)"
@@ -84,6 +85,7 @@
             <div class="form-control" style="grid-area: levetiracetam">
               <input
                 type="checkbox"
+                [checked]="cbCheckValue('Levetiracetam')"
                 id="levetiracetam"
                 value="Levetiracetam"
                 (change)="onDrugsChange($event)"
@@ -94,6 +96,7 @@
             <div class="form-control" style="grid-area: others">
               <input
                 type="checkbox"
+                [checked]="cbCheckValue('Others')"
                 id="others"
                 value="Others"
                 (change)="onDrugsChange($event)"
@@ -104,6 +107,7 @@
             <div class="form-control" style="grid-area: briviact">
               <input
                 type="checkbox"
+                [checked]="cbCheckValue('Briviact')"
                 id="briviact"
                 value="Briviact"
                 (change)="onDrugsChange($event)"
@@ -114,6 +118,7 @@
             <div class="form-control" style="grid-area: vimpat">
               <input
                 type="checkbox"
+                [checked]="cbCheckValue('Vimpat')"
                 id="vimpat"
                 value="Vimpat"
                 (change)="onDrugsChange($event)"
@@ -124,6 +129,7 @@
             <div class="form-control" style="grid-area: keppra">
               <input
                 type="checkbox"
+                [checked]="cbCheckValue('Keppra')"
                 id="keppra"
                 value="Keppra"
                 (change)="onDrugsChange($event)"
@@ -134,6 +140,7 @@
             <div class="form-control" style="grid-area: xyrem">
               <input
                 type="checkbox"
+                [checked]="cbCheckValue('Xyrem')"
                 id="xyrem"
                 value="Xyrem"
                 (change)="onDrugsChange($event)"
@@ -142,7 +149,7 @@
               <label for="xyrem">xyrem</label>
             </div>
           </div>
-          <div class="tab__group" *ngIf="multiStep.controls.drugs.length > 0">
+          <div class="tab__group" *ngIf="this.multiStep.controls.medicationArray.controls.length > 0">
             <p>
               Drug name/dosage/indication/start and end dates of treatment of the
               drugs indicated in the previous question.
@@ -271,47 +278,47 @@
           <div class="radio__group">
             <div class="radio__group-row">
               <div class="form-control">
-                <input type="radio" formControlName="previousPregnancyComplications" value="No complications in the past" />
+                <input type="radio" [checked]="rbCheckValue('No complications in the past')" formControlName="previousPregnancyComplications" value="No complications in the past" />
                 <label>No complications in the past</label>
               </div>
               <div class="form-control">
-                <input type="radio" formControlName="previousPregnancyComplications" value="Gestational Diabetes" />
+                <input type="radio" [checked]="rbCheckValue('Gestational Diabetes')" formControlName="previousPregnancyComplications" value="Gestational Diabetes" />
                 <label>Gestational Diabetes</label>
               </div>
             </div>
             <div class="radio__group-row">
               <div class="form-control">
-                <input type="radio" formControlName="previousPregnancyComplications" value="Miscarriage" />
+                <input type="radio" [checked]="rbCheckValue('Miscarriage')" formControlName="previousPregnancyComplications" value="Miscarriage" />
                 <label>Miscarriage</label>
               </div>
               <div class="form-control">
-                <input type="radio" formControlName="previousPregnancyComplications" value="Preeclapsia" />
+                <input type="radio"  [checked]="rbCheckValue('Preeclapsia')" formControlName="previousPregnancyComplications" value="Preeclapsia" />
                 <label>Preeclapsia</label>
               </div>
             </div>
             <div class="radio__group-row">
               <div class="form-control">
-                <input type="radio" formControlName="previousPregnancyComplications" value="Choice Abortion" />
+                <input type="radio"  [checked]="rbCheckValue('Choice Abortion')" formControlName="previousPregnancyComplications" value="Choice Abortion" />
                 <label>Choice Abortion</label>
               </div>
               <div class="form-control">
-                <input type="radio" formControlName="previousPregnancyComplications" value="Preterm birth" />
+                <input type="radio"  [checked]="rbCheckValue('Preterm birth')" formControlName="previousPregnancyComplications" value="Preterm birth" />
                 <label>Preterm birth</label>
               </div>
             </div>
             <div class="radio__group-row">
               <div class="form-control">
-                <input type="radio" formControlName="previousPregnancyComplications" value="Ectopic or molar pregnancy" />
+                <input type="radio"  [checked]="rbCheckValue('Ectopic or molar pregnancy')" formControlName="previousPregnancyComplications" value="Ectopic or molar pregnancy" />
                 <label>Ectopic or molar pregnancy</label>
               </div>
               <div class="form-control">
-                <input type="radio" formControlName="previousPregnancyComplications" value="Unknown" />
+                <input type="radio"  [checked]="rbCheckValue('Unknown')" formControlName="previousPregnancyComplications" value="Unknown" />
                 <label>Unknown</label>
               </div>
             </div>
             <div class="radio__group-row">
               <div class="form-control">
-                <input type="radio" formControlName="previousPregnancyComplications" value="Fetal death" />
+                <input type="radio"  [checked]="rbCheckValue('Fetal death')" formControlName="previousPregnancyComplications" value="Fetal death" />
                 <label>Fetal death</label>
               </div>
             </div>
@@ -329,31 +336,32 @@
             </p>
             <div class="radio__group-row">
               <div class="form-control">
-                <input type="radio" formControlName="pregnancyOutcome" value="Born alive at term" />
+                <input type="radio" [checked]="rbPregnancyOutcomeCheckValue('Born alive at term')" formControlName="pregnancyOutcome" value="Born alive at term" />
                 <label>Born alive at term</label>
               </div>
               <div class="form-control">
-                <input type="radio" formControlName="pregnancyOutcome" value="Misscarriage" />
+                <input type="radio" [checked]="rbPregnancyOutcomeCheckValue('Misscarriage')" formControlName="pregnancyOutcome" value="Misscarriage" />
                 <label>Misscarriage</label>
               </div>
             </div>
             <div class="radio__group-row">
               <div class="form-control">
-                <input type="radio" formControlName="pregnancyOutcome" value="Born preterm Live (before week 38)" />
+                <input type="radio" [checked]="rbPregnancyOutcomeCheckValue('Born preterm Live (before week 38)')" formControlName="pregnancyOutcome" value="Born preterm Live (before week 38)" />
                 <label>Born preterm Live (before week 38)</label>
               </div>
               <div class="form-control">
-                <input type="radio" formControlName="pregnancyOutcome" value="Choice Abortion" />
+                <input type="radio" [checked]="rbPregnancyOutcomeCheckValue('Choice Abortion')" formControlName="pregnancyOutcome" value="Choice Abortion" />
                 <label>Choice Abortion</label>
               </div>
             </div>
             <div class="radio__group-row">
               <div class="form-control">
-                <input type="radio" formControlName="pregnancyOutcome" value="Stillbirth" />
+                <input type="radio" [checked]="rbPregnancyOutcomeCheckValue('Stillbirth')" formControlName="pregnancyOutcome" value="Stillbirth" />
                 <label>Stillbirth</label>
               </div>
               <div class="form-control">
-                <input type="radio" formControlName="pregnancyOutcome" value="Abortion of choice for medical reasons (ectopic pregnancy,
+                <input type="radio" [checked]="rbPregnancyOutcomeCheckValue('Abortion of choice for medical reasons (ectopic pregnancy,
+                molar or others)')" formControlName="pregnancyOutcome" value="Abortion of choice for medical reasons (ectopic pregnancy,
                 molar or others)" />
                 <label
                   >Abortion of choice for medical reasons (ectopic pregnancy,
@@ -368,15 +376,15 @@
           <div class="radio__group radio__group--sm">
             <p class="radio__group-title">Gender</p>
             <div class="radio__group-input">
-              <input type="radio" formControlName="newBornGender" value="Male" />
+              <input type="radio" [checked]="rbnbGenderCheckValue('Male')" formControlName="newBornGender" value="Male" />
               <label>Male</label>
             </div>
             <div class="radio__group-input">
-              <input type="radio" formControlName="newBornGender" value="Female" />
+              <input type="radio" [checked]="rbnbGenderCheckValue('Female')" formControlName="newBornGender" value="Female" />
               <label>Female</label>
             </div>
             <div class="radio__group-input">
-              <input type="radio" formControlName="newBornGender" value="Other" />
+              <input type="radio" [checked]="rbnbGenderCheckValue('Other')" formControlName="newBornGender" value="Other" />
               <label>Other</label>
             </div>
           </div>
@@ -514,4 +522,4 @@
   
     </div>
   </div>
-  
+ 

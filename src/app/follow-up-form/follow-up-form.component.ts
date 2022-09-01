@@ -1,10 +1,13 @@
+// Pregnancy Followup form component
+
 // import { style } from '@angular/animations';
-import { Component, ElementRef, OnInit, Renderer2 } from '@angular/core';
+import { AfterViewChecked, ChangeDetectionStrategy, Component, ElementRef, OnInit, Renderer2 } from '@angular/core';
 import { Form, FormArray, FormControl, FormGroup } from '@angular/forms';
 import { HttpClient,HttpHeaders } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthInterceptor } from '../interceptors/auth.interceptor';
 import { DatePipe } from '@angular/common';
+import { ChangeDetectorRef, DoCheck } from '@angular/core';
 // import * as CryptoJS from 'crypto-js';
 
 
@@ -12,12 +15,60 @@ import { DatePipe } from '@angular/common';
 //   name: string;
 // }
 
+interface Regimen {
+  drugName: string | null,
+  indication: string | null,
+  dose: string | null,
+  units: string | null,
+  frequency: string | null,
+  startDate: string | null,
+  endDate: string | null,
+};
+
+interface Complications{
+  previousPregnancyComplications: [string],
+  pregnancyOutcomeDate: string | null,
+  pregnancyOutcome: [string],
+  height: number | null,
+  heightUnits: string | null,
+  weight: number | null,
+  weightUnits: string | null,
+  newBornGender: string,
+  apgarScore: string | null,
+  newBornSufferedCongInfo: string | null,
+  riskFactorsForReportedMalformations: string | null,
+  congMalfRelatedToMedications: string | null,
+};
+
+
+interface Survey {
+  patient: {
+    patientInitials: string | null,
+    patientDateOfBirth: string | null,
+    estimatedBirthDate: string | null,
+    firstDayLMP: string | null,
+  }
+  product: 
+    {
+      medicationTakenByPatient: Array<string | null>,
+      regimen: Array<Regimen>
+    },
+  medicalHistory: {
+    patientMedicalHistory: string | null,
+  },
+  complications: Complications
+};
+
+// this.surveyJson.product.medicationTakenByPatient
+
+
 @Component({
   selector: 'app-follow-up-form',
   templateUrl: './follow-up-form.component.html',
   styleUrls: ['./follow-up-form.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class FollowUpFormComponent implements OnInit {
+export class FollowUpFormComponent implements OnInit, DoCheck, AfterViewChecked {
   // reactiveForm: FormGroup;
   // frequencies: Frequency[];
   // selectedFrequency: Frequency;
@@ -27,48 +78,50 @@ export class FollowUpFormComponent implements OnInit {
   public refno = '. . .';
   action = '';
   refArray:any = [];
-
+  lastRecObj:Survey;
   // public base64Key = "aGlsaXRsZGFwc2NydGtleQ==";
   // key = CryptoJS.enc.Base64.parse(this.base64Key);
 
-  public surveyJson = {
-    patient: {
-      patientInitials: '',
-      patientDateOfBirth: '',
-      estimatedBirthDate: '',
-      firstDayLMP: '',
-    },
-    product: 
-      {
-        medicationTakenByPatient: [''],
-        regimen: [{
-          drugName: '',
-          indication: '',
-          dose: '',
-          units: '',
-          frequency: '',
-          startDate: '',
-          endDate: '',
-        }]
-      },
-    medicalHistory: {
-      patientMedicalHistory: '',
-    },
-    complications: {
-      previousPregnancyComplications: [''],
-      pregnancyOutcomeDate: '',
-      pregnancyOutcome: [''],
-      height: 0,
-      heightUnits: '',
-      weight: 80,
-      weightUnits: '',
-      newBornGender: '',
-      apgarScore: '',
-      newBornSufferedCongInfo: '',
-      riskFactorsForReportedMalformations: '',
-      congMalfRelatedToMedications: '',
-    },
-  };
+
+
+  public surveyJson : Survey;
+  //   patient: {
+  //     patientInitials: '',
+  //     patientDateOfBirth: '',
+  //     estimatedBirthDate: '',
+  //     firstDayLMP: '',
+  //   },
+  //   product: 
+  //     {
+  //       medicationTakenByPatient: [''],
+  //       regimen: [{
+  //         drugName: '',
+  //         indication: '',
+  //         dose: '',
+  //         units: '',
+  //         frequency: '',
+  //         startDate: '',
+  //         endDate: '',
+  //       }]
+  //     },
+  //   medicalHistory: {
+  //     patientMedicalHistory: '',
+  //   },
+  //   complications: {
+  //     previousPregnancyComplications: [''],
+  //     pregnancyOutcomeDate: '',
+  //     pregnancyOutcome: [''],
+  //     height: 0,
+  //     heightUnits: '',
+  //     weight: 80,
+  //     weightUnits: '',
+  //     newBornGender: '',
+  //     apgarScore: '',
+  //     newBornSufferedCongInfo: '',
+  //     riskFactorsForReportedMalformations: '',
+  //     congMalfRelatedToMedications: '',
+  //   },
+  // };
 
   // >>>>>>> 4784c0793ea257eed09d681e47d88d70b5dd0bb8
   mainEl: any;
@@ -172,7 +225,8 @@ export class FollowUpFormComponent implements OnInit {
     private router: Router,
     private elRef: ElementRef,
     private renderer: Renderer2,
-    private route:ActivatedRoute
+    private route:ActivatedRoute,
+    private cd: ChangeDetectorRef
   ) {
     // this.frequencies = [
     //   { name: 'Regular' },
@@ -190,49 +244,111 @@ export class FollowUpFormComponent implements OnInit {
     // console.log(this.multiStep);
     // this.activeIndex = this.step;
 
-
-
     /// 1. read the local data
     
-    // this.route.queryParams.subscribe(params => {
-    //   // console.log(params['form']);
+    this.route.queryParams.subscribe(params => {
+      // console.log(params['form']);
 
-    //   this.action = params['action'];
-    //   if(this.action === 'view' || this.action === 'edit'){
+      this.action = params['action'];
+      if(this.action === 'view' || this.action === 'edit'){
 
-    //     const refArrayString = localStorage.getItem('refs');
-    //     if(refArrayString){
-    //       this.refArray = JSON.parse(refArrayString);
-    //       // let keyArray = Object.keys(this.refArray);
-    //       // let lastRecObject = this.refArray[this.refArray.length-1];
-    //       // let lastRec = Object.values(lastRecObject);
-    //       // let valueJson = JSON.parse(lastRec.pop());
-    //       /// 2. bind the data to the reactive form element references
-    //      // this.populateForm();
-    //     } 
+        const refArrayString = localStorage.getItem('refs');
+        if(refArrayString){
+          this.refArray = JSON.parse(refArrayString);
+          let keyArray = Object.keys(this.refArray);
+          let lastRecObject = this.refArray[this.refArray.length-1];
+          console.log('lastRecObject');
+          console.log(lastRecObject);
+          let lastRecString = Object.values(lastRecObject);
+          console.log('lastRec');
+          this.lastRecObj = JSON.parse(lastRecString.toString());
+          console.log(this.lastRecObj);
+          this.populateForm();
+        } 
 
-    //   }
-    // });
+      }
+    });
   }
+  cbCheckValue(cbName:string){
+    
+    if(this.lastRecObj.product.medicationTakenByPatient?.indexOf(cbName) > -1) return true;
+    else return null;
+  }
+
+  rbCheckValue(rbValue:string){
+    // console.log(rbValue);
+    // console.log('checking',this.lastRecObj.complications.previousPregnancyComplications.indexOf(rbValue));
+    if(this.lastRecObj.complications.previousPregnancyComplications?.indexOf(rbValue) > -1) {
+      this.multiStep.controls.complications.controls.previousPregnancyComplications.setValue(rbValue);
+      return true;
+    }
+    else return null;
+  }
+  rbPregnancyOutcomeCheckValue(rbValue:string){
+    if(this.lastRecObj.complications.pregnancyOutcome?.indexOf(rbValue) > -1) {
+      this.multiStep.controls.complications.controls.pregnancyOutcome.setValue(rbValue);
+      return true;}
+    else return null;
+  }
+
+  rbnbGenderCheckValue(rbValue:string){
+    if(this.lastRecObj.complications.newBornGender?.indexOf(rbValue) > -1) {
+      this.multiStep.controls.complications.controls.newBornGender.setValue(rbValue);
+      return true;}
+    else return null;
+  }
+
+
+  normalizeDate(dt:any){
+    if(dt) {
+      let dd = dt.split('-')[0];
+      if(dd.length === 1) dd = '0'+dd;
+      let mm = dt.split('-')[1];
+      if(mm.length === 1) mm = '0'+mm;
+      let yyyy = dt.split('-')[2];
+      return yyyy+'-'+mm+'-'+dd;
+    } else return '';
+  }
+  
 
   populateForm(){
-    //console.log('checking the local storage');
-    //console.log(this.refArray[this.refArray.length-1]);
-    for( let index in this.refArray ){   
-      var value = this.refArray[index]; 
-      //console.log(value);
-    }
+   
+    this.multiStep.controls.patientDetails.controls.estimated_dob.setValue(this.normalizeDate(this.lastRecObj.patient.estimatedBirthDate));
+    this.multiStep.controls.patientDetails.controls.menstrual_date.setValue(this.normalizeDate(this.lastRecObj.patient.firstDayLMP));
+    this.multiStep.controls.patientDetails.controls.patient_dob.setValue(this.normalizeDate(this.lastRecObj.patient.patientDateOfBirth));
+    this.multiStep.controls.patientDetails.controls.patient_initials.setValue(this.lastRecObj.patient.patientInitials);
+    //this.multiStep.value.medicationArray?.push(regimen);
+    const medArray: FormArray = this.multiStep.get('medicationArray') as FormArray;
+    this.lastRecObj.product.regimen.forEach((regimen: Regimen, i) => {
+      const medication = new FormGroup({
+        drugName: new FormControl(regimen.drugName),
+        dosage: new FormControl(regimen.dose),
+        dosageUnit: new FormControl(regimen.units),
+        frequency: new FormControl(regimen.frequency),
+        startMedicationDate: new FormControl(this.normalizeDate(regimen.startDate)),
+        stopMedicationDate: new FormControl(this.normalizeDate(regimen.endDate)),
+        indication: new FormControl(regimen.indication)
+      });
+      medArray.push(medication);
+    });
 
-    // if(this.refArray)
-    // let lastRec = this.refArray.pop();
-    // refArray[0].json
-    // this.multiStep.controls.patientDetails.controls.estimated_dob = 
-    // this.multiStep.controls.patientDetails.controls.menstrual_date = 
-    // this.multiStep.controls.patientDetails.controls.patient_dob = 
-    // this.multiStep.controls.patientDetails.controls.patient_initials = 
+    console.log('drug array length');
+    console.log(this.multiStep.controls.drugs.length);
+    console.log('medicatin array length');
+    console.log(this.multiStep.controls.medicationArray.controls.length);
+
+    this.multiStep.controls.medicalHistory.controls.patientMedicalHistory.setValue(this.lastRecObj.medicalHistory.patientMedicalHistory);
+    this.multiStep.controls.complications.controls.pregnancyOutcomeDate.setValue(this.normalizeDate(this.lastRecObj.complications.pregnancyOutcomeDate));
+    this.multiStep.controls.complications.controls.height.setValue(this.lastRecObj.complications.height?.toString() || null);
+    this.multiStep.controls.complications.controls.heightUnits.setValue(this.lastRecObj.complications.heightUnits);
+    this.multiStep.controls.complications.controls.weight.setValue(this.lastRecObj.complications.weight?.toString() || null);
+    this.multiStep.controls.complications.controls.weightUnits.setValue(this.lastRecObj.complications.weightUnits);
+    this.multiStep.controls.complications.controls.apgarScore.setValue(this.lastRecObj.complications.apgarScore);
+    this.multiStep.controls.complications.controls.newBornSufferedCongInfo.setValue(this.lastRecObj.complications.newBornSufferedCongInfo);
+    this.multiStep.controls.complications.controls.riskFactorsForReportedMalformations.setValue(this.lastRecObj.complications.riskFactorsForReportedMalformations);
+    this.multiStep.controls.complications.controls.congMalfRelatedToMedications.setValue(this.lastRecObj.complications.congMalfRelatedToMedications);
 
   }
-
 
   onClickNext() {
     this.activeIndex++;
@@ -240,7 +356,13 @@ export class FollowUpFormComponent implements OnInit {
       return;
     } else {
       this.step = this.step + 1;
+      
+      if(this.step === 2){
+        
+      }
 
+
+      this.cd.detectChanges();
       if (this.step > 4) {
         this.renderer.addClass(this.el, 'align__center');
         this.renderer.addClass(this.mainEl, 'max-height');
@@ -291,10 +413,7 @@ export class FollowUpFormComponent implements OnInit {
         endDate: new DatePipe('en').transform(regimenItem.stopMedicationDate, 'd-MM-yyyy') || '',
         indication: regimenItem.indication
       };
-      
       this.surveyJson.product.regimen.push(NewRegimen);
-         
-      
     });
 
     if(this.surveyJson.product.regimen.length>1)
@@ -385,6 +504,22 @@ export class FollowUpFormComponent implements OnInit {
     } 
     refArray.push({[this.refno]: jsonObj})
     localStorage.setItem('refs', JSON.stringify(refArray));
+  }
+
+  ngDoCheck(){
+    this.cd.markForCheck();
+    console.log('do check');
+  }
+
+  ngAfterViewChecked(): void {
+    this.cd.markForCheck();
+    console.log('after view checked');
+  }
+
+
+  markforChecked(){
+    console.log('mark for checked');
+    this.cd.detectChanges();
   }
 
   // alignCenter(currentStep: any) {}

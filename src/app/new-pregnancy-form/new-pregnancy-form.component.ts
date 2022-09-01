@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { AuthInterceptor } from '../interceptors/auth.interceptor';
 import { DatePipe } from '@angular/common';
 
+
 // interface Frequency {
 //   name: string;
 // }
@@ -270,14 +271,14 @@ export class NewPregnancyFormComponent implements OnInit {
     let jsonObj = JSON.stringify(this.surveyJson, (key, value) => (value === '') ? null : value);
     //console.log(JSON.stringify(this.surveyJson));
     console.log(jsonObj);
-    //this.saveLocal(jsonObj);
+    this.saveLocal(jsonObj);
     // send the data to the server
-    const token = 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJicmlsbHkiLCJpYXQiOjE2NjE3ODExMDN9.4VBAZfc64YP1K211n9uSwyfISe3cOQ-A0RDJrnTHBG1LXceENPGaU77xPkoCUdYuMr3KnH85fQx2nB6TE2wQbQ';
+    //const token = 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJicmlsbHkiLCJpYXQiOjE2NjE4NjU4ODd9.ItDl9qXx97nGTwvQznOdgbGhsbI_R3OdfwDXFeSPezCts5efZSLwaWApYPx0oRfg29m50hfq5ThePYvPjngg3g';
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
     });
     
-    AuthInterceptor.accessToken = token; // ADDED THROUGH THE INTERCEPTOR
+    //AuthInterceptor.accessToken = token; // ADDED THROUGH THE INTERCEPTOR
     //this.http.post('http://172.168.1.82:8080/hilitloginservice/auth/capeicaseintake/capeicaseintakeservice/caseIntakeService/ucbFormSubmit',  this.surveyJson, {headers})
     this.http.post('http://172.168.1.82:8080/hilitloginservice/auth/capeicaseintake/capeicaseintakeservice/caseIntakeService/ucbFormSubmit',  jsonObj, {headers})
     .subscribe((res:any)=>{
