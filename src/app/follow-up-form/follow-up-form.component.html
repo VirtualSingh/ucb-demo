@@ -8,7 +8,7 @@
       <!-- <div class="component-wrapper"> -->
       <form class="form" [formGroup]="multiStep" (ngSubmit)="onSubmit()">
         <div class="card" *ngIf="step === 1" formGroupName="patientDetails">
-          <h3 class="title">Patient Details FU</h3>
+          <h3 class="title">Patient Details</h3>
           <p class="text sub-title">
             Could you provide us with the following data from your patient?
           </p>
@@ -186,7 +186,7 @@
                             formControlName="dosage"
                           />
                           <select id="dosageUnit" formControlName="dosageUnit">
-                            <option value="" disabled selected>Unit</option>
+                            <option value="" disabled>Unit</option>
                             <option value="kilogram">kilogram</option>
                             <option value="gram">gram</option>
                             <option value="milligram">milligram</option>
@@ -201,8 +201,8 @@
                         <label for="frequency">Frequency</label>
   
                         <select id="frequency" formControlName="frequency">
-                          <option value="" disabled selected>Unit</option>
-                          <option value="regular">Regular</option>
+                          <option value="" disabled>Unit</option>
+                          <option value="daily">Daily</option>
                           <option value="weekly">Weekly</option>
                           <option value="monthly">Monthly</option>
                         </select>
@@ -395,7 +395,7 @@
               <div class="input-control--group">
                 <input type="text" formControlName="height" class="input input--sm" placeholder="Height" />
                 <select formControlName="heightUnits">
-                  <option value="" disabled selected>--Unit--</option>
+                  <option value="" disabled>--Unit--</option>
                   <option value="Inches">Inches</option>
                   <option value="Centimeters">Centimeters</option>
                 </select>
@@ -406,7 +406,7 @@
               <div class="input-control--group">
                 <input type="text" formControlName="weight" class="input input--sm" placeholder="Weight" />
                 <select formControlName="weightUnits">
-                  <option value="" disabled selected>--Unit--</option>
+                  <option value="" disabled>--Unit--</option>
                   <option value="Pounds">Pounds</option>
                   <option value="Kilograms">Kilograms</option>
                 </select>
