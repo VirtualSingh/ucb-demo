@@ -238,7 +238,44 @@
         </div>
       </div>
       <div class="card" *ngIf="step === 3" form-GroupName="events">
-        <h3 class="title">Event Name</h3>
+        <h3 class="title">Product Complaints</h3>
+        <p style="margin-bottom: 2px; margin-top: 20px">
+          Tell us about your complaint. Please provide details such as:
+        </p>
+        <ul>
+          <li>A description of the circumstances that led to the discovery of the product defect.</li>
+          <li>How long have you experienced the issue with the product?</li>
+          <li>If use or user error relates to the Product Quality Complaint.</li>
+        </ul>
+        <div>
+          <textarea
+            class="textarea textarea--sm"
+            id="textarea"
+            cols="30"
+            rows="10"
+            placeholder=""
+            style="resize: none"
+            formControlName="complaint"
+          ></textarea>
+        </div>
+
+        <div class="field-set">
+          <div class="radio__group radio__group--sm">
+            <p class="radio__group-title">
+              Is the sample available for return?<br>
+              <i>If sample is available, Vitrana may request the sample as part of our investigation.</i>
+            </p>
+            <div class="radio__group-input">
+              <input type="radio" name="contactable" value="Yes" />
+              <label>Yes</label>
+            </div>
+            <div class="radio__group-input">
+              <input type="radio" name="contactable" value="No" />
+              <label>No</label>
+            </div>
+          </div>
+        </div>
+
         <div class="field-set">
           <div class="input-group">
             <label for="name">What is the Adverse event? </label>
@@ -324,7 +361,8 @@
           </div>
         </div>
 
-        <p class="section__title">
+        <!-- 
+          <p class="section__title">
           What was the action taken when the side effect was noticed?
         </p>
         <div class="radio__group">
@@ -434,7 +472,10 @@
               <label for="unknown">Unknown</label>
             </div>
           </div>
-        </div>
+        </div> 
+      -->
+      
+
       </div>
 
       <div class="card card__confirmation" *ngIf="step === 4">
