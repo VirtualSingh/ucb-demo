@@ -105,7 +105,7 @@
     margin-right: auto;
 
     &__img {
-     height:40px;
+      height: 40px;
       max-width: 280px;
     }
   }
@@ -457,7 +457,7 @@
     &--sm {
       .radio__group-input {
         @include default-radio-group-style;
-        width: 90px;
+        // width: 90px;
         display: inline-block;
         &:not(:last-child) {
           margin-right: 17px;
