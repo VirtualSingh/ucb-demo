@@ -295,7 +295,11 @@
       // }
       .input-group {
         .form-control {
+          // <<<<<<< HEAD
+          // background-color: red;
+          // =======
           //background-color: red;
+          // >>>>>>> 40f4fee42dda8b7c70389983ddc26af3a2e0c98d
           width: 414px;
 
           .input--sm {
