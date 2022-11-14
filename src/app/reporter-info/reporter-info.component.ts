@@ -33,5 +33,6 @@ export class ReporterInfoComponent implements OnInit {
     // console.log(this.reactiveForm);
     if(this.navigateTo === 'pregnancy') this.router.navigate(['/pregnancy-form']);
     else if(this.navigateTo === 'ae') this.router.navigate(['/ae-form']);
+    else if(this.navigateTo === 'pqc') this.router.navigate(['/product-quality-complaint']);
   }
 }

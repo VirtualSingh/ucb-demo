@@ -1,0 +1,518 @@
+<div class="grid-flex">
+  <div class="header">
+    <a href="index.html" class="logo">
+      <img src="assets/vitrana-logo.png" alt="company logo" class="logo__img" />
+    </a>
+  </div>
+  <div class="main">
+    <!-- <div class="component-wrapper"> -->
+    <form class="form" [formGroup]="pqcForm" (ngSubmit)="onSubmit()">
+      <div class="card" *ngIf="step === 1" name="patientDetails">
+        <h3 class="title">Patient Details</h3>
+        <div class="field-set">
+          <div class="input-group">
+            <label for="name">Can you mention your name?</label>
+            <input
+              type="text"
+              form_ControlName="patient_name"
+              id="patient_name"
+              placeholder="Patient name"
+            />
+          </div>
+          <div class="input-group">
+            <label for="dob">What is your Date of Birth ?</label>
+            <input
+              type="date"
+              form_ControlName="patient_dob"
+              id="patient_dob"
+              placeholder="Date"
+            />
+          </div>
+        </div>
+        <div class="field-set">
+          <div class="radio__group radio__group--sm">
+            <p class="radio__group-title">What is your sex?</p>
+            <div class="radio__group-input">
+              <input type="radio" name="patient_gender" value="Male" />
+              <label>Male</label>
+            </div>
+            <div class="radio__group-input">
+              <input type="radio" name="patient_gender" value="Female" />
+              <label>Female</label>
+            </div>
+            <div class="radio__group-input">
+              <input type="radio" name="patient_gender" value="Other" />
+              <label>Other</label>
+            </div>
+          </div>
+        </div>
+        <div class="field-set">
+          <div class="radio__group radio__group--sm">
+            <p class="radio__group-title">
+              Do you wish to be contacted for further information?
+            </p>
+            <div class="radio__group-input">
+              <input type="radio" name="contactable" value="Yes" />
+              <label>Yes</label>
+            </div>
+            <div class="radio__group-input">
+              <input type="radio" name="contactable" value="No" />
+              <label>No</label>
+            </div>
+          </div>
+        </div>
+        <p class="text sub-title">Patient Contact Details</p>
+        <div class="field-set">
+          <div class="input-group">
+            <label for="name">Address</label>
+            <input
+              type="text"
+              form_ControlName="patient_address"
+              id="patient_address"
+              placeholder="Address"
+            />
+          </div>
+          <div class="input-group">
+            <label for="name">City</label>
+            <input
+              type="text"
+              form_ControlName="patient_city"
+              id="patient_city"
+              placeholder="City"
+            />
+          </div>
+        </div>
+        <div class="field-set">
+          <div class="input-group">
+            <label for="name">State</label>
+            <input
+              type="text"
+              form_ControlName="patient_state"
+              id="patient_state"
+              placeholder="State"
+            />
+          </div>
+          <div class="input-group">
+            <label for="name">Postel Code</label>
+            <input
+              type="text"
+              form_ControlName="patient_pin"
+              id="patient_pin"
+              placeholder="Postel Code"
+            />
+          </div>
+        </div>
+        <div class="field-set">
+          <div class="input-group">
+            <label for="name">Contact Number</label>
+            <input
+              type="text"
+              form_ControlName="patient_contactno"
+              id="patient_contactno"
+              placeholder="Contact Number"
+            />
+          </div>
+          <div class="input-group">
+            <label for="name">Email</label>
+            <input
+              type="text"
+              form_ControlName="patient_email"
+              id="patient_email"
+              placeholder="E-mail"
+            />
+          </div>
+        </div>
+      </div>
+
+      <div class="card" *ngIf="step === 2">
+        <h3 class="title">Medications</h3>
+        <div class="tab__group">
+          <p-tabView>
+            <ng-container formArrayName="medicationArray">
+              <ng-container
+                *ngFor="
+                  let med of pqcForm.controls.medicationArray['controls'];
+                  let i = index
+                "
+                [formGroupName]="i"
+              >
+                <p-tabPanel header="Medication {{ i + 1 }}">
+
+                  <div class="form-control-full">
+                    <label for="drugName"
+                      >What is the medication/device?</label
+                    >
+                    <input
+                      type="text"
+                      id="drugName"
+                      form_ControlName="drugName"
+                      placeholder="Name of the Medication"
+                    />
+                  </div>
+
+                  <div class="field-set">
+                    <div class="input-group">
+                      <div class="form-control">
+                        <label for="packtype">Pack type</label>
+                        <div style="display: flex">
+                          <select
+                            id="packtype"
+                            form_ControlName="packtype"
+                            class="input"
+                          >
+                            <option value="" disabled selected>Select</option>
+                            <option value="milligram">Blister</option>
+                            <option value="microgram">bottle</option>
+                            <option value="nanogram">vial</option>
+                            <option value="nanogram">ampoule</option>
+                            <option value="nanogram">unknown</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="form-control">
+                        <div class="input-group">
+                          <div class="form-control">
+                            <label for="dosage">Strength</label>
+                            <div style="display: flex">
+                              <input
+                                type="text"
+                                class="input--sm"
+                                id="dosage"
+                                placeholder="Strength"
+                                form_ControlName="dosage"
+                              />
+                              <select
+                                id="dosageUnit"
+                                form_ControlName="dosageUnit"
+                                class="input--sm"
+                              >
+                                <option value="" disabled selected>Strength Unit</option>
+                                <option value="milligram">mg</option>
+                                <option value="microgram">ml/kg</option>
+                                <option value="nanogram">%</option>
+                                <option value="nanogram">DF</option>
+                              </select>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="field-set">
+                    <div class="input-group">
+                      <p style="margin-bottom: 2px; margin-top: 20px">
+                        When did the patient start the medication?
+                      </p>
+                        <div class="form-control">
+                          <input
+                            type="Date"
+                            id="startDate"
+                            form_ControlName="startMedicationDate"
+                            placeholder="Start Date"
+                          />
+                        </div>
+                    </div>
+                    <div class="input-group">
+                      <p style="margin-bottom: 2px; margin-top: 20px">
+                        Expiration date
+                      </p>
+                      <div class="input-group">
+                        <div class="form-control">
+                          <input
+                            type="Date"
+                            id="expDate"
+                            form_ControlName="expDate"
+                            placeholder="Expiration Date"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  
+                </p-tabPanel>
+              </ng-container>
+            </ng-container>
+          </p-tabView>
+        </div>
+      </div>
+      <div class="card" *ngIf="step === 3" form-GroupName="events">
+        <h3 class="title">Event Name</h3>
+        <div class="field-set">
+          <div class="input-group">
+            <label for="name">What is the Adverse event? </label>
+            <input
+              type="text"
+              form_ControlName="event_name"
+              id="event_name"
+              placeholder="Event name"
+            />
+          </div>
+          <div class="input-group">
+            <label for="dob">When did event start? </label>
+            <input
+              type="date"
+              form_ControlName="start_date"
+              id="start_date"
+              placeholder="Date"
+            />
+          </div>
+        </div>
+
+        <p class="text">Did the side effect lead to any?</p>
+        <div class="checkbox__group2">
+          <div class="checkbox__group-row2">
+            <div class="form-control">
+              <input
+                type="checkbox"
+                id="death"
+                form_ControlName="side_effects"
+                value="Death"
+              />
+              <label for="death">Death</label>
+            </div>
+            <div class="form-control">
+              <input
+                type="checkbox"
+                id="hospitalization"
+                form_ControlName="side_effects"
+                value="Hospitalization"
+              />
+              <label for="hospitalization">Hospitalization</label>
+            </div>
+          </div>
+          <div class="checkbox__group-row2">
+            <div class="form-control">
+              <input
+                type="checkbox"
+                id="life-threatening"
+                form_ControlName="side_effects"
+                value="Life Threatening"
+              />
+              <label for="life-threatening">Life Threatening</label>
+            </div>
+            <div class="form-control">
+              <input
+                type="checkbox"
+                id="disability"
+                form_ControlName="side_effects"
+                value="Disability"
+              />
+              <label for="disability">Disability</label>
+            </div>
+          </div>
+          <div class="checkbox__group-row2">
+            <div class="form-control">
+              <input
+                type="checkbox"
+                id="congenital-anomaly"
+                form_ControlName="side_effects"
+                value="Congenital anomaly"
+              />
+              <label for="congenital-anomaly">Congenital anomaly</label>
+            </div>
+            <div class="form-control">
+              <input
+                type="checkbox"
+                id="ime"
+                form_ControlName="side_effects"
+                value="Important medical Event"
+              />
+              <label for="ime">Important medical Event</label>
+            </div>
+          </div>
+        </div>
+
+        <p class="section__title">
+          What was the action taken when the side effect was noticed?
+        </p>
+        <div class="radio__group">
+          <div class="radio__group-row">
+            <div class="form-control">
+              <input
+                type="radio"
+                id="discontinued"
+                name="actionTaken"
+                value="Discontinued"
+              />
+              <label for="discontinued">Discontinued</label>
+            </div>
+            <div class="form-control">
+              <input
+                type="radio"
+                id="unknown"
+                name="actionTaken"
+                value="Unknown"
+              />
+              <label for="unknown">Unknown</label>
+            </div>
+          </div>
+          <div class="radio__group-row">
+            <div class="form-control">
+              <input
+                type="radio"
+                id="dose-reduced"
+                name="actionTaken"
+                value="Dose Reduced"
+              />
+              <label for="dose-reduced">Dose Reduced</label>
+            </div>
+            <div class="form-control">
+              <input
+                type="radio"
+                id="not-applicable"
+                name="actionTaken"
+                value="Not applicable"
+              />
+              <label for="not-applicable">Not applicable</label>
+            </div>
+          </div>
+          <div class="radio__group-row">
+            <div class="form-control">
+              <input
+                type="radio"
+                id="dose-increased"
+                name="actionTaken"
+                value="Dose increased"
+              />
+              <label for="dose-increased">Dose increased</label>
+            </div>
+            <div class="form-control">
+              <input
+                type="radio"
+                id="no-change"
+                name="actionTaken"
+                value="Dose not changed"
+              />
+              <label for="no-change">Dose not changed</label>
+            </div>
+          </div>
+        </div>
+
+        <p class="section__title">
+          What was the outcome of the side effect condition?
+        </p>
+        <div class="radio__group">
+          <div class="radio__group-row">
+            <div class="form-control">
+              <input
+                type="radio"
+                id="recovered"
+                name="actionTaken"
+                value="Recovered"
+              />
+              <label for="recovered">Recovered</label>
+            </div>
+            <div class="form-control">
+              <input
+                type="radio"
+                id="not-recovered"
+                name="actionTaken"
+                value="Not Recovered"
+              />
+              <label for="not-recovered">Not Recovered</label>
+            </div>
+          </div>
+          <div class="radio__group-row">
+            <div class="form-control">
+              <input
+                type="radio"
+                id="recovering"
+                name="actionTaken"
+                value="Recovering"
+              />
+              <label for="recovering">Recovering</label>
+            </div>
+            <div class="form-control">
+              <input
+                type="radio"
+                id="unknown"
+                name="actionTaken"
+                value="Unknown"
+              />
+              <label for="unknown">Unknown</label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card card__confirmation" *ngIf="step === 4">
+        <div class="content__wrapper">
+          <h4>Thank You!</h4>
+          <p class="para">
+            Your report has been successfully submitted and will be reviewed.
+            <br />
+            Copy of report has been sent to your email. <br />
+            If permitted, we will contact you if we require more information to
+            fully assess your case.
+          </p>
+          <p class="para">The reference number is</p>
+          <h2>
+            {{ this.refno }}
+            <i
+              class="pi pi-copy"
+              style="font-size: 1.5rem; cursor: pointer; font-weight: 300"
+            ></i>
+          </h2>
+          <button class="btn">
+            <i class="pi pi-download"></i>
+            DOWNLOAD REPORT (PDF)
+          </button>
+          <small
+            >Did you know that every single report is valuable in bringing new
+            insights to the product safety profile? <br />
+            Your submission supports our mission in putting patient's safety
+            first! <br />
+            Check out
+            <a href="" style="color: #fff"> https://www.patientsucb.com </a>
+            to learn more about the benefits and risks of drugs, and what <br />
+            we do to ensure the safety of our products.</small
+          >
+        </div>
+      </div>
+    </form>
+    <!-- </div> -->
+    <app-pqc-form-steps
+      *ngIf="step <= 3"
+      [count]="activeIndex"
+    ></app-pqc-form-steps>
+  </div>
+
+  <div class="footer" *ngIf="step <= 3">
+    <a
+      *ngIf="step === 1"
+      id="prevbtn"
+      class="btn__tertiary btn__tertiary--text"
+      (click)="onClickPrev()"
+      >back</a
+    >
+
+    <a
+      *ngIf="step > 1"
+      id="prevbtn"
+      class="btn__tertiary btn__tertiary--active"
+      (click)="onClickPrev()"
+      >back</a
+    >
+
+    <button
+      *ngIf="step < 3"
+      id="nextbtn"
+      class="btn__tertiary btn__tertiary--active"
+      (click)="onClickNext()"
+    >
+      next
+    </button>
+
+    <button
+      *ngIf="step === 3"
+      id="submitbtn"
+      type="submit"
+      class="btn__tertiary btn__tertiary--active"
+      (click)="onSubmit()"
+    >
+      Submit
+    </button>
+  </div>
+</div>

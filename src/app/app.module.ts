@@ -13,7 +13,8 @@ import { MenuPageComponent } from './menu-page/menu-page.component';
 import { NgOtpInputModule } from 'ng-otp-input';
 import { NewPregnancyFormComponent } from './new-pregnancy-form/new-pregnancy-form.component';
 import { StepsComponent } from './new-pregnancy-form/steps/steps.component';
-import { AEStepsComponent } from './new-ae-form/steps/steps.component'
+import { AEStepsComponent } from './new-ae-form/steps/steps.component';
+import { PQCStepsComponent } from './new-pqc-form/steps/steps.component';
 import { TabViewModule } from 'primeng/tabview';
 import { DropdownModule } from 'primeng/dropdown';
 import { GenerateReportComponent } from './generate-report/generate-report.component';
@@ -22,6 +23,7 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
 import { FollowUpFormComponent } from './follow-up-form/follow-up-form.component';
 import {NewAEFormComponent} from './new-ae-form/ae-form.component';
+import {NewPQCFormComponent} from './new-pqc-form/pqc-form.component';
 import { AeFollowupFormComponent } from './ae-followup-form/ae-followup-form.component';
 
 
@@ -37,6 +39,8 @@ import { AeFollowupFormComponent } from './ae-followup-form/ae-followup-form.com
     NewAEFormComponent,
     StepsComponent,
     AEStepsComponent,
+    NewPQCFormComponent,
+    PQCStepsComponent,
     GenerateReportComponent,
     FollowUpFormComponent,
     AeFollowupFormComponent

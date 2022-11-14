@@ -19,6 +19,10 @@ export class MenuPageComponent implements OnInit {
   navigateToAE(){
     this.router.navigate(['/whois-reporting'], {queryParams: { form: 'ae'}});
   }
+
+  navigateToPQC(){
+    this.router.navigate(['/whois-reporting'], {queryParams: { form: 'pqc'}});
+  }
   aeFollowupForm(){
     this.router.navigate(['/ae-followup-form']);
   }
