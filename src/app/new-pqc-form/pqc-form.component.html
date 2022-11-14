@@ -137,11 +137,8 @@
                 [formGroupName]="i"
               >
                 <p-tabPanel header="Medication {{ i + 1 }}">
-
                   <div class="form-control-full">
-                    <label for="drugName"
-                      >What is the medication/device?</label
-                    >
+                    <label for="drugName">What is the medication/device?</label>
                     <input
                       type="text"
                       id="drugName"
@@ -149,7 +146,53 @@
                       placeholder="Name of the Medication"
                     />
                   </div>
-
+                  <div class="field-set">
+                    <div class="input-group">
+                      <div class="form-control">
+                        <label for="packtype">Batch/Lot</label>
+                        <div style="display: flex">
+                          <input type="text" placeholder="Batch No." />
+                        </div>
+                      </div>
+                      <div class="form-control">
+                        <label for="packtype">Expiration Date</label>
+                        <div style="display: flex">
+                          <input
+                            type="Date"
+                            id="startDate"
+                            placeholder="Expiration Date"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="field-set">
+                    <div class="radio__group radio__group--sm">
+                      <p class="radio__group-title">
+                        Product was administered by
+                      </p>
+                      <div class="radio__group-input">
+                        <input type="radio" />
+                        <label>Patient</label>
+                      </div>
+                      <div class="radio__group-input">
+                        <input type="radio" />
+                        <label>Caregiver</label>
+                      </div>
+                      <div class="radio__group-input">
+                        <input type="radio" />
+                        <label>HCP</label>
+                      </div>
+                      <div class="radio__group-input">
+                        <input type="radio" />
+                        <label>Self-administration</label>
+                      </div>
+                      <div class="radio__group-input">
+                        <input type="radio" />
+                        <label>Unknown</label>
+                      </div>
+                    </div>
+                  </div>
                   <div class="field-set">
                     <div class="input-group">
                       <div class="form-control">
@@ -186,7 +229,9 @@
                                 form_ControlName="dosageUnit"
                                 class="input--sm"
                               >
-                                <option value="" disabled selected>Strength Unit</option>
+                                <option value="" disabled selected>
+                                  Strength Unit
+                                </option>
                                 <option value="milligram">mg</option>
                                 <option value="microgram">ml/kg</option>
                                 <option value="nanogram">%</option>
@@ -201,36 +246,83 @@
 
                   <div class="field-set">
                     <div class="input-group">
-                      <p style="margin-bottom: 2px; margin-top: 20px">
-                        When did the patient start the medication?
-                      </p>
-                        <div class="form-control">
+                      <div class="form-control">
+                        <label for="packtype"
+                          >How were you trained to use this product?</label
+                        >
+                        <div style="display: flex">
+                          <select
+                            id="packtype"
+                            form_ControlName="packtype"
+                            class="input"
+                          >
+                            <option value="" disabled selected>Select</option>
+                            <option value="milligram">Product nurse</option>
+                            <option value="microgram">Package insert</option>
+                            <option value="nanogram">
+                              Training at doctor’s office
+                            </option>
+                            <option value="nanogram">video</option>
+                            <option value="nanogram">Not trained</option>
+                            <option value="nanogram">Unknown</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="form-control">
+                        <label for="packtype"
+                          >When did you identfiy the problem/defect?</label
+                        >
+                        <div style="display: flex">
+                          <select
+                            id="packtype"
+                            form_ControlName="packtype"
+                            class="input"
+                          >
+                            <option value="" disabled selected>Select</option>
+                            <option value="milligram">
+                              During preparation
+                            </option>
+                            <option value="microgram">
+                              During administration
+                            </option>
+                            <option value="nanogram">
+                              After administration
+                            </option>
+                            <option value="nanogram">
+                              Removal from package
+                            </option>
+                            <option value="nanogram">Unknown</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="field-set">
+                    <div class="input-group">
+                      <div class="form-control">
+                        <label for="packtype"
+                          >When did the patient start the medication?</label
+                        >
+                        <div style="display: flex">
                           <input
                             type="Date"
                             id="startDate"
-                            form_ControlName="startMedicationDate"
                             placeholder="Start Date"
                           />
                         </div>
-                    </div>
-                    <div class="input-group">
-                      <p style="margin-bottom: 2px; margin-top: 20px">
-                        Expiration date
-                      </p>
-                      <div class="input-group">
-                        <div class="form-control">
+                      </div>
+                      <div class="form-control">
+                        <label for="packtype">Expiration Date</label>
+                        <div style="display: flex">
                           <input
                             type="Date"
-                            id="expDate"
-                            form_ControlName="expDate"
+                            id="startDate"
                             placeholder="Expiration Date"
                           />
                         </div>
                       </div>
                     </div>
                   </div>
-
-                  
                 </p-tabPanel>
               </ng-container>
             </ng-container>
