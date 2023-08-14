@@ -10,7 +10,6 @@ import { AuthInterceptor } from '../interceptors/auth.interceptor';
   templateUrl: './main.component.html',
   styleUrls: ['./main.component.scss'],
 })
-
 export class MainComponent implements OnInit {
   constructor(private router: Router, private http:HttpClient) {}
   ngOnInit(): void { 
